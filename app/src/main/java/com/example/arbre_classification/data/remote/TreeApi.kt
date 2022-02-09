@@ -2,8 +2,6 @@ package com.example.arbre_classification.data.remote
 
 import com.example.arbre_classification.data.models.Trees
 import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 

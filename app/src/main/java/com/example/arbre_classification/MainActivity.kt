@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.arbre_classification.presentation.treeInfo.components.treeScreen.TreeScreen
 import com.example.arbre_classification.presentation.treesList.components.treesListScreen.TreesListScreen
-import com.example.arbre_classification.ui.theme.Arbre_ClassificationTheme
+import com.example.arbre_classification.presentation.ui.theme.Arbre_ClassificationTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

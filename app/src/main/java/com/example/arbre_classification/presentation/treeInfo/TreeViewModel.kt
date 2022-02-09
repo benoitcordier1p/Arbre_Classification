@@ -6,7 +6,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.arbre_classification.domain.use_case.getTree.GetTreeUseCase
-import com.example.arbre_classification.domain.use_case.getTrees.GetTreesUseCase
 import com.example.arbre_classification.util.Constants
 import com.example.arbre_classification.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

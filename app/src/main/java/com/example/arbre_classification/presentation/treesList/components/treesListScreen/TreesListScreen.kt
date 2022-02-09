@@ -12,6 +12,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -34,9 +35,10 @@ fun TreesListScreen(
                 Brush.verticalGradient(
                     colors = listOf(
                         Color(0xFF29BB89),
-                        Color(0xFFFFFFFF))
+                        Color(0xFFFFFFFF)
                     )
                 )
+            )
     ){
         items(state.value.trees){ tree ->
             Box(modifier = Modifier.padding(12.dp)){
@@ -46,7 +48,13 @@ fun TreesListScreen(
         }
     }
     if(state.value.isLoading) {
-        CircularProgressIndicator()
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CircularProgressIndicator()
+        }
+
     }
     if(state.value.error.isEmpty()){
         Text(

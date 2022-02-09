@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -21,13 +22,15 @@ fun TreeListItem(
     navController: NavController,
     viewModel: TreesListViewModel
 ){
-    Box(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
             .background(
                 Color.White,
                 RoundedCornerShape(12.dp)
-            )
+            ),
+        elevation = 8.dp
+
     ){
         Column(modifier = Modifier.padding(6.dp)){
             Text(
@@ -40,20 +43,6 @@ fun TreeListItem(
                 style = MaterialTheme.typography.body1,
                 textAlign = TextAlign.Center)
             Spacer(modifier = Modifier.size(10.dp))
-            Text(
-                text = "Hauteur (m) : ${tree.fields.hauteurenm}",
-                style = MaterialTheme.typography.body1,
-                textAlign = TextAlign.Center)
-            Spacer(modifier = Modifier.size(10.dp))
-            Text(
-                text = "Circonférence (cm) : ${tree.fields.circonferenceencm}",
-                style = MaterialTheme.typography.body1,
-                textAlign = TextAlign.Center)
-            Spacer(modifier = Modifier.size(10.dp))
-            Text(
-                text = "Adresse : ${tree.fields.adresse}",
-                style = MaterialTheme.typography.body1,
-                textAlign = TextAlign.Center)
             Button(onClick = {
                 navController.navigate(
                     route = "TreesList/${viewModel.getTreePosition(tree.recordid)}"

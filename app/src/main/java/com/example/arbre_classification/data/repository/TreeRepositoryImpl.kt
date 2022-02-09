@@ -1,7 +1,6 @@
 package com.example.arbre_classification.data.repository
 
 import com.example.arbre_classification.data.models.Tree
-import com.example.arbre_classification.data.models.Trees
 import com.example.arbre_classification.data.remote.TreeApi
 import com.example.arbre_classification.domain.TreeRepository
 import javax.inject.Inject
