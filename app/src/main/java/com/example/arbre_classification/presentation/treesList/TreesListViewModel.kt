@@ -18,7 +18,7 @@ class TreesListViewModel @Inject constructor(
 ) : ViewModel(){
 
     private val _state = mutableStateOf(TreesListState())
-    val state : State<TreesListState> = _state
+    var state : State<TreesListState> = _state
 
     init{
         getTrees()
