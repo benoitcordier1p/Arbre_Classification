@@ -2,11 +2,14 @@
 
 Projet test de compétences OnePoint.
 
-Testé et réalisé avec Android 12 (API level 32).
+Testé et réalisé avec Android 12 (API level 32), sous Android Studio Bumblebee
 
 L'application a été réalisé avec JetPack Compose.
 
 Une clean architecture et le pattern MVVM ont été utilisé pour structurer le projet.
+
+Pour l'installation, simplement cloner ou télécharger le projet.
+
 
 ### Fonctionnement général
 
@@ -33,4 +36,9 @@ La seconde requête récupère un unique arbre, avec toutes les informations (gr
 ### Injection de dépendances
 
 Les injections de dépendances sont réalisées grâce à Dagger-Hilt version 2.38.1
+
+### Tests
+
+Un Unit test a été réalisé. Il teste que la fonction retournant la position en fonction du "recordId".
+Un UI test a été réalisé. Il teste que la liste d'arbre s'affiche bien après la requête API. Un second test ne fonctionne pas encore (problème avec le performClcik())
 
