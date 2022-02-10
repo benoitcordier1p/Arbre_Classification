@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -47,8 +48,12 @@ fun TreeListItem(
                 navController.navigate(
                     route = "TreesList/${viewModel.getTreePosition(tree.recordid)}"
                 )
-            }) {
-               Text(text = "Cliquez ici!")
+            }, modifier = Modifier
+                .testTag("Tree_Button_${tree.recordid}")
+                .background(MaterialTheme.colors.primary)
+            ) {
+               Text(
+                   text = "Cliquez ici pour plus d'infos")
             }
         }
 

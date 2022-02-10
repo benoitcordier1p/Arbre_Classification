@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -81,6 +82,7 @@ fun TreeDescription(
         modifier = Modifier
             .background(Color.White, RoundedCornerShape(10.dp))
             .padding(5.dp)
+            .testTag("Tree_Item_${tree.recordid}")
     )
     Spacer(modifier = Modifier.size(10.dp))
     Text(
