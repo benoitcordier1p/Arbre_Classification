@@ -1,4 +1,4 @@
-package com.example.arbre_classification.data.repository
+package com.example.arbre_classification.domain.repository
 
 import com.example.arbre_classification.data.models.Tree
 

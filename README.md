@@ -10,7 +10,6 @@ Une clean architecture et le pattern MVVM ont été utilisé pour structurer le 
 
 Pour l'installation, simplement cloner ou télécharger le projet.
 
-
 ### Fonctionnement général
 
 Au lancement, une requête API est lancée afin de récupérer la liste des arbres à afficher. 
@@ -42,3 +41,7 @@ Les injections de dépendances sont réalisées grâce à Dagger-Hilt version 2.
 Un Unit test a été réalisé. Il teste que la fonction retournant la position en fonction du "recordId".
 Un UI test a été réalisé. Il teste que la liste d'arbre s'affiche bien après la requête API. Un second test ne fonctionne pas encore (problème avec le performClcik())
 
+### Features optionelles
+
+Un début de feature d'ajout d'arbre sur l'api a été ajouté (bien qu'il nous soit interdit d'en ajouter), afin de démontrer l'architecture avec différents uses cases.
+Le code n'a pas été offusqué pour des raisons de simplicité.

@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.arbre_classification.domain.use_case.getTree.GetTreeUseCase
+import com.example.arbre_classification.domain.use_case.treeUseCase.TreeUseCase
 import com.example.arbre_classification.util.Constants
 import com.example.arbre_classification.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TreeViewModel @Inject constructor(
-    private val getTreeUseCase: GetTreeUseCase,
+    private val treeUseCase: TreeUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel(){
 
@@ -30,7 +30,7 @@ class TreeViewModel @Inject constructor(
 
     private fun getTree(position:String){
         viewModelScope.launch {
-            getTreeUseCase(position).collect {
+            treeUseCase.getTree(position).collect {
                 when(it){
                     is Resource.Success ->{
                         _state.value= it.data?.let { it1 -> TreeState(it1[0]) }!!
@@ -44,5 +44,10 @@ class TreeViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun addTree(){
+        //On pourrait ajouter un arbre grâce au UseCase :
+        treeUseCase.addTree
     }
 }

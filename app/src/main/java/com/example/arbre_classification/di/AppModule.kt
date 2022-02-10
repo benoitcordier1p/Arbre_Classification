@@ -1,8 +1,11 @@
 package com.example.arbre_classification.di
 
 import com.example.arbre_classification.data.remote.TreeApi
-import com.example.arbre_classification.data.repository.TreeRepositoryImpl
-import com.example.arbre_classification.data.repository.TreeRepository
+import com.example.arbre_classification.domain.repository.TreeRepositoryImpl
+import com.example.arbre_classification.domain.repository.TreeRepository
+import com.example.arbre_classification.domain.use_case.treeUseCase.AddTreeUseCase
+import com.example.arbre_classification.domain.use_case.treeUseCase.GetTreeUseCase
+import com.example.arbre_classification.domain.use_case.treeUseCase.TreeUseCase
 import com.example.arbre_classification.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -30,5 +33,14 @@ object AppModule {
     @Singleton
     fun provideTreeRepository(api:TreeApi) : TreeRepository {
         return TreeRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNoteUseCases(repository: TreeRepository): TreeUseCase {
+        return TreeUseCase(
+            getTree = GetTreeUseCase(repository),
+            addTree = AddTreeUseCase(repository)
+        )
     }
 }

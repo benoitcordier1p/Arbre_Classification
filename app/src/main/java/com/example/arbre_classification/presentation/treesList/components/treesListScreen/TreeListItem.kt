@@ -8,6 +8,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
@@ -33,27 +34,36 @@ fun TreeListItem(
         elevation = 8.dp
 
     ){
-        Column(modifier = Modifier.padding(6.dp)){
+        Column(modifier = Modifier
+            .padding(6.dp)
+            .background(
+                Color.White
+            )
+        ){
             Text(
                 text = "Arbre n° ${tree.recordid}",
-                style = MaterialTheme.typography.body1,
-                textAlign = TextAlign.Center)
+                style = MaterialTheme.typography.button,
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.primary)
             Spacer(modifier = Modifier.size(10.dp))
             Text(
                 text = "Espèce : ${tree.fields.espece}",
                 style = MaterialTheme.typography.body1,
-                textAlign = TextAlign.Center)
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.primary)
             Spacer(modifier = Modifier.size(10.dp))
             Button(onClick = {
                 navController.navigate(
                     route = "TreesList/${viewModel.getTreePosition(tree.recordid)}"
                 )
             }, modifier = Modifier
+                .align(Alignment.CenterHorizontally)
                 .testTag("Tree_Button_${tree.recordid}")
                 .background(MaterialTheme.colors.primary)
             ) {
                Text(
-                   text = "Cliquez ici pour plus d'infos")
+                   text = "Cliquez ici pour plus d'infos",
+                   color = Color.White)
             }
         }
 

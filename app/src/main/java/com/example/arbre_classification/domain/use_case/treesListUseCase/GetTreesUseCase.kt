@@ -1,7 +1,7 @@
-package com.example.arbre_classification.domain.use_case.getTrees
+package com.example.arbre_classification.domain.use_case.treesListUseCase
 
 import com.example.arbre_classification.data.models.Tree
-import com.example.arbre_classification.data.repository.TreeRepository
+import com.example.arbre_classification.domain.repository.TreeRepository
 import com.example.arbre_classification.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

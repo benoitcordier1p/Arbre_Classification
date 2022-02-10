@@ -17,10 +17,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.arbre_classification.data.models.Fields
 import com.example.arbre_classification.data.models.Tree
 import com.example.arbre_classification.presentation.treeInfo.TreeViewModel
+import com.example.arbre_classification.presentation.ui.theme.Arbre_ClassificationTheme
 
 @Composable
 fun TreeScreen(
@@ -29,17 +33,18 @@ fun TreeScreen(
 
     val state = viewModel.state.value
     Box(modifier = Modifier
-            .fillMaxSize()
-            .background(Brush.verticalGradient(
-                colors = listOf(
-                    Color(0xFF29BB89),
+        .fillMaxSize()
+        .background(
+            Brush.verticalGradient(
+                colors = listOf(MaterialTheme.colors.background,
                     Color(0xFFFFFFFF)
                 )
             )
         )
     ){
         state.tree?.let {
-            LazyColumn(modifier = Modifier.fillMaxSize(),
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
             ) {
                 item {
                     Column(Modifier.padding(10.dp)){
@@ -69,20 +74,26 @@ fun TreeScreen(
 fun TreeDescription(
     tree: Tree
 ){
-    Image(
-        painter = painterResource(R.drawable.tree),
-        contentDescription = "Image of the tree",
-        modifier = Modifier.size(150.dp),
-        alignment = Alignment.Center
-    )
-    Spacer(modifier = Modifier.size(5.dp))
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Image(
+            painter = painterResource(R.drawable.tree),
+            contentDescription = "Image of the tree",
+            modifier = Modifier.size(150.dp)
+        )
+    }
+    Spacer(modifier = Modifier.size(10.dp))
     Text(
-        text = "Arbre n°${tree.recordid}",
-        style = MaterialTheme.typography.h5,
+        text = "Arbre n° ${tree.recordid}",
+        style = MaterialTheme.typography.button,
+        color = MaterialTheme.colors.primary,
         modifier = Modifier
             .background(Color.White, RoundedCornerShape(10.dp))
             .padding(5.dp)
-            .testTag("Tree_Item_${tree.recordid}")
+            .testTag("Tree_Item_${tree.recordid}"),
+        textAlign = TextAlign.Center
     )
     Spacer(modifier = Modifier.size(10.dp))
     Text(
@@ -116,4 +127,24 @@ fun TreeDescription(
         style = MaterialTheme.typography.h5
     )
 
+}
+
+@Composable
+@Preview
+fun previewTreeDescription(){
+    Arbre_ClassificationTheme {
+        Column{
+            TreeDescription(tree = Tree(
+                Fields(
+                    "1 Boulevard de Clichy",
+                    "18ème Arrondissement",
+                    123,
+                    "hispanica",
+                    2,
+                    "Arbre"),
+                "1234567890a")
+            )
+        }
+
+    }
 }

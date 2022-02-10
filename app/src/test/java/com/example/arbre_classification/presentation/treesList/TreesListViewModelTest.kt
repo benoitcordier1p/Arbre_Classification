@@ -1,14 +1,12 @@
 package com.example.arbre_classification.presentation.treesList
 
 import androidx.compose.runtime.mutableStateOf
-import com.example.arbre_classification.data.repository.FakeTreeRepository
-import com.example.arbre_classification.domain.use_case.getTrees.GetTreesUseCase
+import com.example.arbre_classification.domain.repository.FakeTreeRepository
+import com.example.arbre_classification.domain.use_case.treesListUseCase.GetTreesUseCase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
 class TreesListViewModelTest {

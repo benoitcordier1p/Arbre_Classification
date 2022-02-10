@@ -26,6 +26,9 @@ class MainActivity : ComponentActivity() {
                     composable(route = "TreesList/{treeId}"){
                         TreeScreen()
                     }
+                    composable(route = "AddTree"){
+                        TreeScreen()
+                    }
                 }
 
             }
