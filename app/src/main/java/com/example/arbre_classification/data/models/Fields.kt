@@ -6,7 +6,7 @@ data class Fields(
     val circonferenceencm: Int,
     val complementadresse: String,
     val domanialite: String,
-    val espece: String,
+    val espece: String?,
     val genre: String,
     val geo_point_2d: List<Double>,
     val hauteurenm: Int,

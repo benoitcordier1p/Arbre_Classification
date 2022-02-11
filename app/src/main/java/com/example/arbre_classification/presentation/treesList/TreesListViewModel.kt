@@ -4,7 +4,9 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.arbre_classification.domain.models.Tree
 import com.example.arbre_classification.domain.useCase.treesListUseCase.GetTreesUseCase
+import com.example.arbre_classification.util.Constants
 import com.example.arbre_classification.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -14,30 +16,39 @@ import javax.inject.Inject
 @HiltViewModel
 class TreesListViewModel @Inject constructor(
     private val getTreesUseCase: GetTreesUseCase
-) : ViewModel(){
+) : ViewModel() {
 
-    private val _state = mutableStateOf(TreesListState())
-    var state : State<TreesListState> = _state
+    //State. Updated when new tress are loaded.
+    private val _state = mutableStateOf<List<Tree>>(emptyList())
+    var state: State<List<Tree>> = _state
 
-    init{
+    //Variables to define UI
+    var isLoading = mutableStateOf(false)
+
+    var error = ""
+    var lastTree = false
+
+    //Variable used for lazy loading, updated when the user to scroll to the bottom of the list
+    private var index = 0
+
+    init {
         getTrees()
     }
 
-    private fun getTrees(){
+    fun getTrees() {
         viewModelScope.launch {
-            getTreesUseCase().collect {
-                when(it){
-                    is Resource.Success ->{
-                        _state.value= it.data?.let { it1 -> TreesListState((it1)) }!!
+            getTreesUseCase(index * Constants.NUMBER_OF_ROWS).collect {
+                when (it) {
+                    is Resource.Success -> {
+                        lastTree = Constants.NUMBER_OF_ROWS * index >= it.data!!.size
+                        _state.value += it.data
                     }
-                    is Resource.Loading ->{
-                        _state.value= TreesListState(isLoading = true)
-                    }
-                    is Resource.Error ->{
-                        _state.value= it.message?.let { it1 -> TreesListState(error = it1) }!!
-                    }
+                    is Resource.Loading -> isLoading.value = true
+                    is Resource.Error -> it.message.let { msg -> error = msg!! }
                 }
             }
+            isLoading.value = false
+            index += 1
         }
     }
 }

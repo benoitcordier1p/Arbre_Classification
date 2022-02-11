@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.arbre_classification.domain.models.Tree
 import com.google.gson.Gson
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun TreeListItem(
@@ -53,7 +55,7 @@ fun TreeListItem(
             Spacer(modifier = Modifier.size(10.dp))
             Button(onClick = {
 
-                val treeJson = Gson().toJson(tree)
+                val treeJson = Gson().toJson(tree).replace("/",",")
                 navController.navigate(
                     route = "TreesList/$treeJson"
                 )

@@ -14,10 +14,10 @@ fun TreesComplete.toTreeList() : List<Tree>{
     records.forEach { record ->
         treeList.add(Tree(
             id = record.recordid,
-            adresse = "${record.fields.adresse},${record.fields.arrondissement}",
+            adresse = "${record.fields.adresse}, ${record.fields.arrondissement}",
             circonferenceencm = record.fields.circonferenceencm,
             hauteurenm = record.fields.hauteurenm,
-            espece = record.fields.espece
+            espece = record.fields.espece ?: "Unknown"
         ))
     }
     return treeList.toList()

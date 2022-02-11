@@ -1,12 +1,8 @@
 package com.example.arbre_classification.presentation.treesList.components.treesListScreen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -26,6 +22,10 @@ fun TreesListScreen(
 ){
 
     val state = remember { viewModel.state }
+    val isLoading = remember {viewModel.isLoading }
+    val error = remember {viewModel.error }
+    val lastTree = remember {viewModel.lastTree }
+
     Scaffold (
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
@@ -40,32 +40,28 @@ fun TreesListScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(
-                    MaterialTheme.colors.background
-                )
+                .background(MaterialTheme.colors.background)
         ){
-            items(state.value.trees){ tree ->
-                Box(modifier = Modifier.padding(12.dp)){
-                    TreeListItem(tree = tree,navController = navController)
+            items(state.value.size){
+                println("$it ${state.value.size}")
+                if(it>=state.value.size-1 && !lastTree){
+                    viewModel.getTrees()
                 }
-
+                Box(modifier = Modifier.padding(12.dp)){
+                    TreeListItem(tree = state.value[it],navController = navController)
+                }
             }
         }
-
-        if(state.value.isLoading) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                CircularProgressIndicator()
+        Column {
+            if (isLoading.value)
+            {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    CircularProgressIndicator()
+                }
             }
-
-        }
-        if(state.value.error.isEmpty()){
-            Text(
-                text = state.value.error,
-                color = MaterialTheme.colors.error
-            )
         }
     }
 }

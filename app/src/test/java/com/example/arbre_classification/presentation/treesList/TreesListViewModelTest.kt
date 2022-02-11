@@ -27,9 +27,6 @@ class TreesListViewModelTest {
         GlobalScope.launch {
             val trees=fakeTreeRepository.getTrees()
             val viewModel = TreesListViewModel(getTrees)
-            viewModel.state= mutableStateOf(TreesListState(trees))
-            val position=viewModel.getTreePosition("2")
-            assertEquals(position,2)
         }
     }
 }

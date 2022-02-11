@@ -14,10 +14,10 @@ class GetTreesUseCase @Inject constructor(
     private val repository: TreeRepository
 ) {
 
-    operator fun invoke() : Flow<Resource<List<Tree>>> = flow {
+    operator fun invoke(start: Int) : Flow<Resource<List<Tree>>> = flow {
         try {
             emit(Resource.Loading<List<Tree>>())
-            val trees = repository.getTrees().toTreeList()
+            val trees = repository.getTrees(start.toString()).toTreeList()
             emit(Resource.Success<List<Tree>>(trees))
         } catch (e : HttpException){
             emit(Resource.Error<List<Tree>>(e.localizedMessage?:"An error occurred"))

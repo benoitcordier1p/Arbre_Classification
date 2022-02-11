@@ -31,14 +31,12 @@ class MainActivity : ComponentActivity() {
                         val treeJson =  backStackEntry.arguments?.getString("tree")
                         val treeObject = Gson().fromJson(treeJson, Tree::class.java)
                         TreeScreen(tree = treeObject!!)
-
                     }
 
                     composable(route = "AddTree"){
 
                     }
                 }
-
             }
         }
     }

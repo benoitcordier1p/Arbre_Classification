@@ -4,5 +4,5 @@ object Constants {
 
     const val NUMBER_OF_ROWS = 20
     const val START = 0
-    const val POSITION = "treeId"
+
 }
