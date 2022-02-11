@@ -2,7 +2,7 @@ package com.example.arbre_classification.presentation.treesList
 
 import androidx.compose.runtime.mutableStateOf
 import com.example.arbre_classification.domain.repository.FakeTreeRepository
-import com.example.arbre_classification.domain.use_case.treesListUseCase.GetTreesUseCase
+import com.example.arbre_classification.domain.useCase.treesListUseCase.GetTreesUseCase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.junit.Assert.*

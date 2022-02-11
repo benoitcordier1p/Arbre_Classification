@@ -15,14 +15,13 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.arbre_classification.data.models.Tree
-import com.example.arbre_classification.presentation.treesList.TreesListViewModel
+import com.example.arbre_classification.domain.models.Tree
+import com.google.gson.Gson
 
 @Composable
 fun TreeListItem(
     tree : Tree,
-    navController: NavController,
-    viewModel: TreesListViewModel
+    navController: NavController
 ){
     Card(
         modifier = Modifier
@@ -41,24 +40,27 @@ fun TreeListItem(
             )
         ){
             Text(
-                text = "Arbre n° ${tree.recordid}",
+                text = "Arbre n° ${tree.id}",
                 style = MaterialTheme.typography.button,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colors.primary)
             Spacer(modifier = Modifier.size(10.dp))
             Text(
-                text = "Espèce : ${tree.fields.espece}",
+                text = "Espèce : ${tree.espece}",
                 style = MaterialTheme.typography.body1,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colors.primary)
             Spacer(modifier = Modifier.size(10.dp))
             Button(onClick = {
+
+                val treeJson = Gson().toJson(tree)
                 navController.navigate(
-                    route = "TreesList/${viewModel.getTreePosition(tree.recordid)}"
+                    route = "TreesList/$treeJson"
                 )
+
             }, modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .testTag("Tree_Button_${tree.recordid}")
+                .testTag("Tree_Button_${tree.id}")
                 .background(MaterialTheme.colors.primary)
             ) {
                Text(

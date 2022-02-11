@@ -1,10 +1,11 @@
 package com.example.arbre_classification.domain.repository
 
-import com.example.arbre_classification.data.models.Tree
+import com.example.arbre_classification.data.models.Record
+import com.example.arbre_classification.data.models.TreesComplete
 
 interface TreeRepository {
 
-    suspend fun getTrees() : List<Tree>
+    suspend fun getTrees() : TreesComplete
 
-    suspend fun getTreeByPosition(position:String) : List<Tree>
+    //suspend fun getTreeByPosition(position:String) : List<Tree>
 }

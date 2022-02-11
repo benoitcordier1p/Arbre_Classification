@@ -6,7 +6,6 @@ import com.example.arbre_classification.R
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -20,18 +19,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.arbre_classification.data.models.Fields
-import com.example.arbre_classification.data.models.Tree
-import com.example.arbre_classification.presentation.treeInfo.TreeViewModel
+import com.example.arbre_classification.domain.models.FakeTree
+import com.example.arbre_classification.domain.models.Tree
 import com.example.arbre_classification.presentation.ui.theme.Arbre_ClassificationTheme
 
 @Composable
-fun TreeScreen(
-    viewModel: TreeViewModel = hiltViewModel()
-){
+fun TreeScreen(tree: Tree){
 
-    val state = viewModel.state.value
     Box(modifier = Modifier
         .fillMaxSize()
         .background(
@@ -42,7 +36,7 @@ fun TreeScreen(
             )
         )
     ){
-        state.tree?.let {
+        tree.let {
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -53,20 +47,6 @@ fun TreeScreen(
                 }
             }
         }
-    }
-    if(state.isLoading) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            CircularProgressIndicator()
-        }
-    }
-    if(state.error.isEmpty()){
-        Text(
-            text = state.error,
-            color = MaterialTheme.colors.error
-        )
     }
 }
 
@@ -84,31 +64,41 @@ fun TreeDescription(
             modifier = Modifier.size(150.dp)
         )
     }
+
     Spacer(modifier = Modifier.size(10.dp))
+
     Text(
-        text = "Arbre n° ${tree.recordid}",
+        text = "Arbre n° ${tree.id}",
         style = MaterialTheme.typography.button,
         color = MaterialTheme.colors.primary,
         modifier = Modifier
             .background(Color.White, RoundedCornerShape(10.dp))
             .padding(5.dp)
-            .testTag("Tree_Item_${tree.recordid}"),
+            .testTag("Tree_Item_${tree.id}"),
         textAlign = TextAlign.Center
     )
+
     Spacer(modifier = Modifier.size(10.dp))
+
     Text(
-        text = "Espèce : ${tree.fields.espece}",
+        text = "Espèce : ${tree.espece}",
         style = MaterialTheme.typography.h5
     )
+
     Spacer(modifier = Modifier.size(10.dp))
+
     Row{
-        Icon(painter = painterResource(id = R.drawable.ic_height), contentDescription = null, tint = MaterialTheme.colors.onSurface)
+        Icon(painter = painterResource(id = R.drawable.ic_height),
+            contentDescription = null,
+            tint = MaterialTheme.colors.onSurface)
         Text(
-            text = "Hauteur : ${tree.fields.hauteurenm}m",
+            text = "Hauteur : ${tree.hauteurenm}m",
             style = MaterialTheme.typography.h5
         )
     }
+
     Spacer(modifier = Modifier.size(10.dp))
+
     Row{
         Icon(
             painter = painterResource(id = R.drawable.circ),
@@ -117,13 +107,15 @@ fun TreeDescription(
             modifier = Modifier.size(30.dp)
         )
         Text(
-            text = "Circonférence : ${tree.fields.circonferenceencm}cm",
+            text = "Circonférence : ${tree.circonferenceencm}cm",
             style = MaterialTheme.typography.h5
         )
     }
+
     Spacer(modifier = Modifier.size(10.dp))
+
     Text(
-        text = "Adresse : ${tree.fields.adresse},${tree.fields.arrondissement}",
+        text = "Adresse : ${tree.adresse}",
         style = MaterialTheme.typography.h5
     )
 
@@ -131,20 +123,10 @@ fun TreeDescription(
 
 @Composable
 @Preview
-fun previewTreeDescription(){
+fun PreviewTreeDescription(){
     Arbre_ClassificationTheme {
         Column{
-            TreeDescription(tree = Tree(
-                Fields(
-                    "1 Boulevard de Clichy",
-                    "18ème Arrondissement",
-                    123,
-                    "hispanica",
-                    2,
-                    "Arbre"),
-                "1234567890a")
-            )
+            TreeDescription(tree = FakeTree().mockTree())
         }
-
     }
 }
