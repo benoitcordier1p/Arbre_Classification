@@ -53,6 +53,7 @@ fun TreesListScreen(
             }
         }
         Column {
+            println("*********$error")
             if (isLoading.value)
             {
                 Box(
@@ -60,6 +61,17 @@ fun TreesListScreen(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     CircularProgressIndicator()
+                }
+            }
+            if(error.value.isNotEmpty()){
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        text = error.value,
+                        color = MaterialTheme.colors.error
+                    )
                 }
             }
         }

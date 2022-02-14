@@ -25,7 +25,7 @@ class TreesListViewModel @Inject constructor(
     //Variables to define UI
     var isLoading = mutableStateOf(false)
 
-    var error = ""
+    var error = mutableStateOf("")
     var lastTree = false
 
     //Variable used for lazy loading, updated when the user to scroll to the bottom of the list
@@ -44,7 +44,9 @@ class TreesListViewModel @Inject constructor(
                         _state.value += it.data as List<Tree>
                     }
                     is Resource.Loading -> isLoading.value = true
-                    is Resource.Error -> it.message.let { msg -> error = msg!! }
+                    is Resource.Error -> {
+                        error.value = it.message!!
+                    }
                 }
             }
             isLoading.value = false
