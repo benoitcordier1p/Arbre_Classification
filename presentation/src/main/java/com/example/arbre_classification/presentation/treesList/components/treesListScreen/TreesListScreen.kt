@@ -19,14 +19,14 @@ import com.example.arbre_classification.presentation.treesList.TreesListViewMode
 fun TreesListScreen(
     viewModel: TreesListViewModel = hiltViewModel(),
     navController: NavController
-){
+) {
 
     val state = remember { viewModel.state }
-    val isLoading = remember {viewModel.isLoading }
-    val error = remember {viewModel.error }
-    val lastTree = remember {viewModel.lastTree }
+    val isLoading = remember { viewModel.isLoading }
+    val error = remember { viewModel.error }
+    val lastTree = remember { viewModel.lastTree }
 
-    Scaffold (
+    Scaffold(
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
             FloatingActionButton(
@@ -36,26 +36,24 @@ fun TreesListScreen(
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
             }
         }
-    ){
+    ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colors.background)
-        ){
-            items(state.value.size){
+        ) {
+            items(state.value.size) {
                 println("$it ${state.value.size}")
-                if(it>=state.value.size-1 && !lastTree){
+                if (it >= state.value.size - 1 && !lastTree) {
                     viewModel.getTrees()
                 }
-                Box(modifier = Modifier.padding(12.dp)){
-                    TreeListItem(tree = state.value[it],navController = navController)
+                Box(modifier = Modifier.padding(12.dp)) {
+                    TreeListItem(tree = state.value[it], navController = navController)
                 }
             }
         }
         Column {
-            println("*********$error")
-            if (isLoading.value)
-            {
+            if (isLoading.value) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.fillMaxSize()
@@ -63,7 +61,7 @@ fun TreesListScreen(
                     CircularProgressIndicator()
                 }
             }
-            if(error.value.isNotEmpty()){
+            if (error.value.isNotEmpty()) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.fillMaxSize()

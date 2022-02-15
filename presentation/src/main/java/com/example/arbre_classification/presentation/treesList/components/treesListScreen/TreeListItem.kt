@@ -15,14 +15,14 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.data.models.Tree
+import com.example.common.Tree
 import com.google.gson.Gson
 
 @Composable
 fun TreeListItem(
-    tree : Tree,
+    tree: Tree,
     navController: NavController
-){
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -32,40 +32,45 @@ fun TreeListItem(
             ),
         elevation = 8.dp
 
-    ){
-        Column(modifier = Modifier
-            .padding(6.dp)
-            .background(
-                Color.White
-            )
-        ){
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(6.dp)
+                .background(
+                    Color.White
+                )
+        ) {
             Text(
                 text = "Arbre n° ${tree.id}",
                 style = MaterialTheme.typography.button,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colors.primary)
+                color = MaterialTheme.colors.primary
+            )
             Spacer(modifier = Modifier.size(10.dp))
             Text(
                 text = "Espèce : ${tree.espece}",
                 style = MaterialTheme.typography.body1,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colors.primary)
+                color = MaterialTheme.colors.primary
+            )
             Spacer(modifier = Modifier.size(10.dp))
-            Button(onClick = {
+            Button(
+                onClick = {
 
-                val treeJson = Gson().toJson(tree).replace("/",",")
-                navController.navigate(
-                    route = "TreesList/$treeJson"
-                )
+                    val treeJson = Gson().toJson(tree).replace("/", ",")
+                    navController.navigate(
+                        route = "TreesList/$treeJson"
+                    )
 
-            }, modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .testTag("Tree_Button_${tree.id}")
-                .background(MaterialTheme.colors.primary)
+                }, modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .testTag("Tree_Button_${tree.id}")
+                    .background(MaterialTheme.colors.primary)
             ) {
-               Text(
-                   text = "Cliquez ici pour plus d'infos",
-                   color = Color.White)
+                Text(
+                    text = "Cliquez ici pour plus d'infos",
+                    color = Color.White
+                )
             }
         }
 

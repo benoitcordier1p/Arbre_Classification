@@ -9,7 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.arbre_classification.presentation.treeInfo.components.treeScreen.TreeScreen
 import com.example.arbre_classification.presentation.treesList.components.treesListScreen.TreesListScreen
 import com.example.arbre_classification.presentation.ui.theme.Arbre_ClassificationTheme
-import com.example.data.models.Tree
+import com.example.common.Tree
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 

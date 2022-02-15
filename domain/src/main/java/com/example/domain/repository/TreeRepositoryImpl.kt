@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 
 class TreeRepositoryImpl @Inject constructor(
-    private val api : TreeApi
+    private val api: TreeApi
 ) : TreeRepository {
 
     override suspend fun getTrees(start: String): TreesComplete = api.getTrees(start)

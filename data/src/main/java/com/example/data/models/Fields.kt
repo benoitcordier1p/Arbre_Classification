@@ -18,3 +18,4 @@ data class Fields(
     val typeemplacement: String,
     val varieteoucultivar: String
 )
+

@@ -2,7 +2,6 @@ package com.example.arbre_classification.presentation.treeInfo.components.treeSc
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import com.example.arbre_classification.R
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,29 +18,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.arbre_classification.R
 import com.example.arbre_classification.presentation.ui.theme.Arbre_ClassificationTheme
-import com.example.data.models.FakeTree
-import com.example.data.models.Tree
+import com.example.common.Tree
+import com.example.common.mock
 
 @Composable
-fun TreeScreen(tree: Tree){
+fun TreeScreen(tree: Tree) {
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(
-            Brush.verticalGradient(
-                colors = listOf(MaterialTheme.colors.background,
-                    Color(0xFFFFFFFF)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(
+                        MaterialTheme.colors.background,
+                        Color(0xFFFFFFFF)
+                    )
                 )
             )
-        )
-    ){
+    ) {
         tree.let {
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
                 item {
-                    Column(Modifier.padding(10.dp)){
+                    Column(Modifier.padding(10.dp)) {
                         TreeDescription(tree = it)
                     }
                 }
@@ -53,11 +55,11 @@ fun TreeScreen(tree: Tree){
 @Composable
 fun TreeDescription(
     tree: Tree
-){
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         Image(
             painter = painterResource(R.drawable.tree),
             contentDescription = "Image of the tree",
@@ -87,10 +89,12 @@ fun TreeDescription(
 
     Spacer(modifier = Modifier.size(10.dp))
 
-    Row{
-        Icon(painter = painterResource(id = R.drawable.ic_height),
+    Row {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_height),
             contentDescription = null,
-            tint = MaterialTheme.colors.onSurface)
+            tint = MaterialTheme.colors.onSurface
+        )
         Text(
             text = "Hauteur : ${tree.hauteurenm}m",
             style = MaterialTheme.typography.h5
@@ -99,7 +103,7 @@ fun TreeDescription(
 
     Spacer(modifier = Modifier.size(10.dp))
 
-    Row{
+    Row {
         Icon(
             painter = painterResource(id = R.drawable.circ),
             contentDescription = "circonferenceIcon",
@@ -123,10 +127,10 @@ fun TreeDescription(
 
 @Composable
 @Preview
-fun PreviewTreeDescription(){
+fun PreviewTreeDescription() {
     Arbre_ClassificationTheme {
-        Column{
-            TreeDescription(tree = FakeTree().mockTree())
+        Column {
+            TreeDescription(tree = mock())
         }
     }
 }

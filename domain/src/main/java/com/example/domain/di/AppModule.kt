@@ -18,7 +18,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideTreeApi() : TreeApi {
+    fun provideTreeApi(): TreeApi {
         return Retrofit.Builder()
             .baseUrl(URL.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -28,7 +28,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideTreeRepository(api:TreeApi) : TreeRepository {
+    fun provideTreeRepository(api: TreeApi): TreeRepository {
         return TreeRepositoryImpl(api)
     }
 
