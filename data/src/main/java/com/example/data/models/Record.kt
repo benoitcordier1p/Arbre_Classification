@@ -1,7 +1,6 @@
 package com.example.data.models
 
-import com.example.common.Tree
-
+import com.example.domain.models.Tree
 
 data class Record(
     val datasetid: String,

@@ -1,8 +1,7 @@
 package com.example.arbre_classification.di
 
 import com.example.data.remote.TreeApi
-import com.example.domain.repository.TreeRepository
-import com.example.domain.repository.TreeRepositoryImpl
+import com.example.data.repository.TreeRepositoryImpl
 import com.example.arbre_classification.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -29,7 +28,7 @@ object TestAppModule {
     @Provides
     @Singleton
     fun provideTreeRepository(api: TreeApi) : com.example.domain.repository.TreeRepository {
-        return com.example.domain.repository.TreeRepositoryImpl(api)
+        return com.example.data.repository.TreeRepositoryImpl(api)
     }
 
 }

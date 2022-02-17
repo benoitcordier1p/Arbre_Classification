@@ -1,8 +1,8 @@
-package com.example.domain.di
+package com.example.data.di
 
 import com.example.data.remote.TreeApi
+import com.example.data.repository.TreeRepositoryImpl
 import com.example.domain.repository.TreeRepository
-import com.example.domain.repository.TreeRepositoryImpl
 import com.example.domain.util.URL
 import dagger.Module
 import dagger.Provides
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object ApiModule {
 
     @Provides
     @Singleton
@@ -24,12 +24,6 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(TreeApi::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideTreeRepository(api: TreeApi): TreeRepository {
-        return TreeRepositoryImpl(api)
     }
 
 }

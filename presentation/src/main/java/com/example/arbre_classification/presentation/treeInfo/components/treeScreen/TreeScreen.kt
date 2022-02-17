@@ -20,9 +20,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.arbre_classification.R
 import com.example.arbre_classification.presentation.ui.theme.Arbre_ClassificationTheme
-import com.example.common.Tree
-import com.example.common.mock
+import com.example.domain.models.Tree
+import com.example.domain.models.mock
+import com.ramcosta.composedestinations.annotation.Destination
 
+@Destination
 @Composable
 fun TreeScreen(tree: Tree) {
 

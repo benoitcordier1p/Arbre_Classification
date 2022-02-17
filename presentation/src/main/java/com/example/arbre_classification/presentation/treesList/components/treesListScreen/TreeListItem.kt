@@ -15,13 +15,18 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.common.Tree
+import com.example.arbre_classification.presentation.destinations.TreeScreenDestination
+import com.example.domain.models.Tree
 import com.google.gson.Gson
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavController
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@Destination
 @Composable
 fun TreeListItem(
     tree: Tree,
-    navController: NavController
+    navigator: DestinationsNavigator
 ) {
     Card(
         modifier = Modifier
@@ -56,12 +61,7 @@ fun TreeListItem(
             Spacer(modifier = Modifier.size(10.dp))
             Button(
                 onClick = {
-
-                    val treeJson = Gson().toJson(tree).replace("/", ",")
-                    navController.navigate(
-                        route = "TreesList/$treeJson"
-                    )
-
+                    navigator.navigate(TreeScreenDestination(tree))
                 }, modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .testTag("Tree_Button_${tree.id}")
