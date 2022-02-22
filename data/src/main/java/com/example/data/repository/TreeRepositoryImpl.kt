@@ -15,7 +15,7 @@ class TreeRepositoryImpl @Inject constructor(
     private val api: TreeApi
 ) : TreeRepository {
 
-    override suspend fun getTreesRoom(start: String): List<Tree> = dao.getTrees().map {
+    override suspend fun getTreesRoom(): List<Tree> = dao.getTrees().map {
         it.toDomain()
     }
 

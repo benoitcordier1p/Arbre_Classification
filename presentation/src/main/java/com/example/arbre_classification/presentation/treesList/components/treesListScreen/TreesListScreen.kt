@@ -1,5 +1,8 @@
 package com.example.arbre_classification.presentation.treesList.components.treesListScreen
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.arbre_classification.presentation.destinations.AddTreeDestination
@@ -28,6 +32,19 @@ fun TreesListScreen(
     val isLoading = remember { viewModel.isLoading }
     val error = remember { viewModel.error }
     val lastTree = remember { viewModel.lastTree }
+    var offline = remember { false }
+
+    val connectivityManager = LocalContext.current.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    connectivityManager.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network) {
+            offline = !offline
+        }
+
+        override fun onLost(network: Network) {
+            offline = !offline
+            viewModel.getCacheTrees()
+        }
+    })
 
     Scaffold(
         floatingActionButtonPosition = FabPosition.End,
@@ -42,6 +59,12 @@ fun TreesListScreen(
             }
         }
     ) {
+        if(offline){
+            Text(
+                text = "You are currently offline",
+                color = MaterialTheme.colors.error
+            )
+        }
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()

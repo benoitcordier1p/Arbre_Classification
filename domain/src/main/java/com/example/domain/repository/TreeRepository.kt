@@ -6,7 +6,7 @@ import com.example.domain.models.Tree
 
 interface TreeRepository {
 
-    suspend fun getTreesRoom(start: String): List<Tree>
+    suspend fun getTreesRoom(): List<Tree>
 
     suspend fun getTrees(position:String) : List<Tree>
 
