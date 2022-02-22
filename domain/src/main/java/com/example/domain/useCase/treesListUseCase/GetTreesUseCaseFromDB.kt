@@ -9,14 +9,15 @@ import kotlinx.coroutines.flow.flow
 import java.io.IOException
 import javax.inject.Inject
 
-class GetTreesUseCase @Inject constructor(
+
+class GetTreesUseCaseFromDB @Inject constructor(
     private val repository: TreeRepository
 ) {
 
-    operator fun invoke(start: Int): Flow<Resource<List<Tree>>> = flow {
+    operator fun invoke(): Flow<Resource<List<Tree>>> = flow {
         try {
             emit(Resource.Loading<List<Tree>>())
-            emit(Resource.Success<List<Tree>>(repository.getTrees(start.toString())))
+            emit(Resource.Success<List<Tree>>(repository.getTreesRoom()))
         } catch (e: Exception) {
             emit(Resource.Error<List<Tree>>(e.localizedMessage ?: "An error occurred"))
         } catch (e: IOException) {
