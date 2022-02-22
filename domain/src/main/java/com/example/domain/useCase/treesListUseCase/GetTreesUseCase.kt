@@ -1,5 +1,6 @@
 package com.example.domain.useCase.treesListUseCase
 
+import com.example.domain.entities.Trees
 import com.example.domain.models.Tree
 import com.example.domain.repository.TreeRepository
 import com.example.domain.util.Resource

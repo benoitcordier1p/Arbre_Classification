@@ -1,6 +1,6 @@
 package com.example.data.remote
 
-import com.example.data.models.TreesComplete
+import com.example.data.remote.models.TreesComplete
 import retrofit2.http.GET
 import retrofit2.http.Query
 

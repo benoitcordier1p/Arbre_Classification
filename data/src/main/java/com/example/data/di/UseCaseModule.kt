@@ -1,6 +1,7 @@
 package com.example.data.di
 
 import com.example.domain.repository.TreeRepository
+import com.example.domain.useCase.addTreeUseCase.AddTreeUseCase
 import com.example.domain.useCase.treesListUseCase.GetTreesUseCase
 import dagger.Module
 import dagger.Provides
@@ -16,6 +17,12 @@ object UseCaseModule {
     @Singleton
     fun provideUseCase(repo: TreeRepository): GetTreesUseCase {
         return GetTreesUseCase(repo)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddUseCase(repo: TreeRepository): AddTreeUseCase {
+        return AddTreeUseCase(repo)
     }
 
 }
