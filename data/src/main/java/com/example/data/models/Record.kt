@@ -2,7 +2,6 @@ package com.example.data.models
 
 import com.example.domain.models.Tree
 
-//HEY
 data class Record(
     val datasetid: String,
     val fields: Fields,
