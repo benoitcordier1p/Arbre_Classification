@@ -42,20 +42,7 @@ fun TreesListScreen(
             }
         }
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colors.background)
-        ) {
-            items(state.value.size) {
-                if (it >= state.value.size - 1 && !lastTree) {
-                    viewModel.getTrees()
-                }
-                Box(modifier = Modifier.padding(12.dp)) {
-                    TreeListItem(tree = state.value[it], navigator = navigator)
-                }
-            }
-        }
+
         Column {
             if (isLoading.value) {
                 Box(
@@ -64,8 +51,7 @@ fun TreesListScreen(
                 ) {
                     CircularProgressIndicator()
                 }
-            }
-            if (error.value.isNotEmpty()) {
+            } else if (error.value.isNotEmpty()) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.fillMaxSize()
@@ -74,6 +60,21 @@ fun TreesListScreen(
                         text = error.value,
                         color = MaterialTheme.colors.error
                     )
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colors.background)
+                ) {
+                    items(state.value.size) {
+                        if (it >= state.value.size - 1 && !lastTree) {
+                            viewModel.getTrees()
+                        }
+                        Box(modifier = Modifier.padding(12.dp)) {
+                            TreeListItem(tree = state.value[it], navigator = navigator)
+                        }
+                    }
                 }
             }
         }
