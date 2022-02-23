@@ -1,14 +1,10 @@
 package com.example.arbre_classification.presentation.treesList
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.Network
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.arbre_classification.util.Constants
-import com.example.data.local.TreeDatabase
 import com.example.domain.entities.Trees
 import com.example.domain.models.Tree
 import com.example.domain.useCase.addTreeUseCase.AddTreeUseCase
@@ -33,7 +29,6 @@ class TreesListViewModel @Inject constructor(
 
     //Variables to define UI
     var isLoading = mutableStateOf(false)
-
     var error = mutableStateOf("")
     var lastTree = false
 
@@ -61,6 +56,7 @@ class TreesListViewModel @Inject constructor(
 
             viewModelScope.launch {
                 _state.value.forEach {
+                    println("Save $it")
                     addTreeUseCase(Trees(it.id, it.espece, it.hauteurenm, it.circonferenceencm, it.adresse))
                 }
             }
@@ -79,5 +75,13 @@ class TreesListViewModel @Inject constructor(
             }
             isLoading.value = false
         }
+    }
+
+    fun resetTrees(){
+        _state.value = emptyList()
+        index=0
+        error.value = ""
+        getTrees()
+
     }
 }

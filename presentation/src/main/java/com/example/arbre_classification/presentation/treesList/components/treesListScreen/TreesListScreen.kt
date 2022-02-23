@@ -1,8 +1,5 @@
 package com.example.arbre_classification.presentation.treesList.components.treesListScreen
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.Network
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,11 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.arbre_classification.presentation.destinations.AddTreeDestination
 import com.example.arbre_classification.presentation.treesList.TreesListViewModel
+import com.example.arbre_classification.util.ConnectionManager
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -32,19 +31,12 @@ fun TreesListScreen(
     val isLoading = remember { viewModel.isLoading }
     val error = remember { viewModel.error }
     val lastTree = remember { viewModel.lastTree }
-    var offline = remember { false }
 
-    val connectivityManager = LocalContext.current.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    connectivityManager.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
-        override fun onAvailable(network: Network) {
-            offline = !offline
-        }
+    val connection = ConnectionManager(LocalContext.current)
+    val offline = remember { connection.state }
+    if(offline.value) viewModel.getCacheTrees()
+    else viewModel.resetTrees()
 
-        override fun onLost(network: Network) {
-            offline = !offline
-            viewModel.getCacheTrees()
-        }
-    })
 
     Scaffold(
         floatingActionButtonPosition = FabPosition.End,
@@ -59,15 +51,16 @@ fun TreesListScreen(
             }
         }
     ) {
-        if(offline){
-            Text(
-                text = "You are currently offline",
-                color = MaterialTheme.colors.error
-            )
-        }
+        println(offline)
+        Text(
+            text = "You are currently offline",
+            color = MaterialTheme.colors.error,
+            modifier = Modifier.alpha(if(offline.value) 1f else 0f)
+        )
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
+                .offset(y = 20.dp)
                 .background(MaterialTheme.colors.background)
         ) {
             items(state.value.size) {
@@ -101,4 +94,6 @@ fun TreesListScreen(
             }
         }
     }
+
+
 }
