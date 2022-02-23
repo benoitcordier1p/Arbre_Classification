@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="treeItem"
+            type="com.example.appdatabinding.presentation.treeList.TreesListViewModel" />
+
+        <variable
+            name="main"
+            type="com.example.appdatabinding.MainActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/greenForest"
+            android:onClick="@{()->main.backMenu()}"
+            android:text="@string/menu"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintHorizontal_bias="0.516"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="173dp"
+            android:layout_height="182dp"
+            android:contentDescription="@string/tree"
+            android:src="@drawable/tree"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.41" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10sp"
+            android:text="@{`id : `+treeItem.select.id}"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.393" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10sp"
+            android:text="@{`Espèce : `+ treeItem.select.espece}"
+            android:textColor="@color/wood"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10sp"
+            android:text="@{`Hauteur : `+ treeItem.select.hauteurenm+`m`}"
+            android:textColor="@color/wood"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView4"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10sp"
+            android:text="@{`Circonférence : `+ treeItem.select.circonferenceencm+`cm`}"
+            android:textColor="@color/wood"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView5"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10sp"
+            android:text="@{`Adresse : `+ treeItem.select.adresse}"
+            android:textColor="@color/wood"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

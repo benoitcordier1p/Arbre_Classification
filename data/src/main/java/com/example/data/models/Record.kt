@@ -9,7 +9,7 @@ data class Record(
     val record_timestamp: String,
     val recordid: String
 )
-
+ //Set to Tree
 fun Record.toDomain(): Tree = Tree(
     id = recordid,
     adresse = "${fields.adresse}, ${fields.arrondissement}",

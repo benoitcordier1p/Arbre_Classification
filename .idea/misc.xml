@@ -7,6 +7,16 @@
         <entry key="../../../../layout/compose-model-1644576962705.xml" value="0.27870370370370373" />
         <entry key="../../../../layout/compose-model-1644578582898.xml" value="0.27870370370370373" />
         <entry key="app/src/main/res/drawable/ic_height.xml" value="0.1715" />
+        <entry key="appdatabinding/src/main/res/drawable/shape.xml" value="0.1135" />
+        <entry key="appdatabinding/src/main/res/layout/activity_main.xml" value="0.190625" />
+        <entry key="appdatabinding/src/main/res/layout/fragment_list_tree.xml" value="0.2046875" />
+        <entry key="appdatabinding/src/main/res/layout/fragment_tree_item_fragment.xml" value="0.2046875" />
+        <entry key="appdatabinding/src/main/res/layout/tree_item.xml" value="0.2046875" />
+        <entry key="pres_databinding/src/main/res/layout/activity_main.xml" value="0.19010416666666666" />
+        <entry key="pres_databinding/src/main/res/layout/fragment_list_tree.xml" value="0.19010416666666666" />
+        <entry key="pres_databinding/src/main/res/layout/fragment_tree_item_fragment.xml" value="0.19010416666666666" />
+        <entry key="pres_databinding/src/main/res/layout/presentation_databinding/src/main/res/drawable/ic_launcher_background.xml" value="0.1135" />
+        <entry key="pres_databinding/src/main/res/layout/tree_item.xml" value="0.19010416666666666" />
       </map>
     </option>
   </component>

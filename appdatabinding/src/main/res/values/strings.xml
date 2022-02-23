@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">app</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tree">Tree</string>
+    <string name="menu">Menu</string>
+    <string name="cliquer_ici_pour_plus_d_infos">Cliquer ici pour plus d\'infos</string>
+    <string name="arbre_n">Arbre n°</string>
+</resources>

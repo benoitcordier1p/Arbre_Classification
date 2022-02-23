@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Arbre_Classification"
-include(":presentation")
 include(":domain")
 include(":data")
+include(":appdatabinding")
