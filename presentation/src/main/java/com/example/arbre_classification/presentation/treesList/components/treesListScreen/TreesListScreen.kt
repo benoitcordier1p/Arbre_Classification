@@ -51,7 +51,6 @@ fun TreesListScreen(
             }
         }
     ) {
-        println(offline)
         Text(
             text = "You are currently offline",
             color = MaterialTheme.colors.error,

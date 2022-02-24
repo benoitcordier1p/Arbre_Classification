@@ -1,6 +1,5 @@
 package com.example.domain.useCase.treesListUseCase
 
-import com.example.domain.entities.Trees
 import com.example.domain.models.Tree
 import com.example.domain.repository.TreeRepository
 import com.example.domain.util.Resource
@@ -17,7 +16,7 @@ class GetTreesUseCaseFromDB @Inject constructor(
     operator fun invoke(): Flow<Resource<List<Tree>>> = flow {
         try {
             emit(Resource.Loading<List<Tree>>())
-            emit(Resource.Success<List<Tree>>(repository.getTreesRoom()))
+            emit(Resource.Success<List<Tree>>(repository.getTreesRealm()))
         } catch (e: Exception) {
             emit(Resource.Error<List<Tree>>(e.localizedMessage ?: "An error occurred"))
         } catch (e: IOException) {

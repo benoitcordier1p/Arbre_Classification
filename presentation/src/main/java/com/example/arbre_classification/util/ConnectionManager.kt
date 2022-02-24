@@ -22,9 +22,7 @@ class ConnectionManager(context: Context) {
             override fun onAvailable(network: Network) {
                 try {
                     _state.value = false
-                } catch (e :Exception){
-                    println("Too soon")
-                }
+                } catch (e :Exception){ }
 
             }
 

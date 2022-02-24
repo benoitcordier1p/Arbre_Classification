@@ -1,40 +1,42 @@
 package com.example.data.di
 
 import android.app.Application
-import androidx.room.Room
-import com.example.data.local.TreeDao
-import com.example.data.local.TreeDatabase
-import com.example.data.remote.TreeApi
-import com.example.data.repository.TreeRepositoryImpl
-import com.example.domain.repository.TreeRepository
+import android.content.Context
+import com.example.data.local.TreeDatabaseOperations
+import com.example.domain.models.Tree
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.realm.Realm
+import io.realm.RealmConfiguration
 import javax.inject.Singleton
+import kotlin.coroutines.coroutineContext
 
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
-    @Provides
+    private const val realmVersion = 1L
+
     @Singleton
-    fun provideTreeDatabase(app: Application): TreeDatabase {
-        return Room.databaseBuilder(
-            app,
-            TreeDatabase::class.java,
-            TreeDatabase.DATABASE_NAME
-        ).build()
+    @Provides
+    fun providesRealmConfig(): RealmConfiguration{
+        return RealmConfiguration.Builder()
+            .schemaVersion(realmVersion)
+            .build()
     }
 
     @Singleton
     @Provides
-    fun provideTreesDao(app: Application): TreeDao{
-        return Room.databaseBuilder(
-            app,
-            TreeDatabase::class.java,
-            TreeDatabase.DATABASE_NAME
-        ).build().treeDao
+    fun providesTreeDatabaseOperation(context: Context): TreeDatabaseOperations{
+        return TreeDatabaseOperations(context = context)
     }
+
+    @Singleton
+    @Provides
+    fun provideContext(application: Application): Context = application.applicationContext
+
+
 }

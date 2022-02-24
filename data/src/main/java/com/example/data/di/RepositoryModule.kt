@@ -1,7 +1,6 @@
 package com.example.data.di
 
-import com.example.data.local.TreeDao
-import com.example.data.local.TreeDatabase
+import com.example.data.local.TreeDatabaseOperations
 import com.example.data.remote.TreeApi
 import com.example.data.repository.TreeRepositoryImpl
 import com.example.domain.repository.TreeRepository
@@ -17,8 +16,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideTreeRepository(dao: TreeDao,api : TreeApi): TreeRepository {
-        return TreeRepositoryImpl(dao,api)
+    fun provideTreeRepository(dao: TreeDatabaseOperations,api : TreeApi): TreeRepository {
+        return TreeRepositoryImpl(api,dao)
     }
 
 }

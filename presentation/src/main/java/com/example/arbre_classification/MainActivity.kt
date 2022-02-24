@@ -7,6 +7,7 @@ import com.example.arbre_classification.presentation.NavGraphs
 import com.example.arbre_classification.presentation.ui.theme.Arbre_ClassificationTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
+import io.realm.Realm
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
