@@ -14,11 +14,11 @@ Pour l'installation, simplement cloner ou télécharger le projet.
 
 Master contient le projet classique, Clean Architecture, MVVVM, Retrofit, Dagger-Hilt, Lazy Loading, avec Jetpack Compose.
 
-Databinding contient le projet classique, mais utilise les layout XML à la place de JetPack Compose, et contient également la gestion de gain et perte de connexion.
+Databinding contient le projet classique, mais utilise les layout XML et du databinding à la place de JetPack Compose, et contient également la gestion de gain et perte de connexion.
 
-RoomDB contient le projet classique, avec la gestion de réseau, mais contient également une base de données Room, mettan les arbres en cache et les affiche en mode offline. Avec JetPack Compose. Possibilité d'ajouter des arbres dans la base de données en développement.
+RoomDB contient le projet classique, avec la gestion de réseau, mais contient également une base de données Room, mettant les arbres en cache et les affiche en mode offline. Avec JetPack Compose. Possibilité d'ajouter des arbres dans la base de données en développement. Branche en développement.
 
-Branche RealmDB à venir.
+RealmDB est similaire à la branche RoomDB, mais utilise Realm au lieu de Room. Branche en développement.
 
 ### Fonctionnement général
 
