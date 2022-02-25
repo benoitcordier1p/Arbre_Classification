@@ -3,9 +3,10 @@ package com.example.arbre_classification.presentation.treesList.components.trees
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -14,7 +15,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.arbre_classification.presentation.destinations.AddTreeDestination
 import com.example.arbre_classification.presentation.treesList.TreesListViewModel
 import com.example.arbre_classification.util.ConnectionManager
 import com.ramcosta.composedestinations.annotation.Destination
@@ -34,28 +34,15 @@ fun TreesListScreen(
 
     val connection = ConnectionManager(LocalContext.current)
     val offline = remember { connection.state }
-    if(offline.value) viewModel.getCacheTrees()
+    if (offline.value) viewModel.getCacheTrees()
     else viewModel.resetTrees()
 
 
-    Scaffold(
-        floatingActionButtonPosition = FabPosition.End,
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                          navigator.navigate(AddTreeDestination())
-                },
-                backgroundColor = MaterialTheme.colors.primary,
-            ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
-            }
-        }
-    ) {
-        println(offline)
+    Scaffold {
         Text(
             text = "You are currently offline",
             color = MaterialTheme.colors.error,
-            modifier = Modifier.alpha(if(offline.value) 1f else 0f)
+            modifier = Modifier.alpha(if (offline.value) 1f else 0f)
         )
         LazyColumn(
             modifier = Modifier
@@ -81,7 +68,7 @@ fun TreesListScreen(
                     CircularProgressIndicator()
                 }
             }
-            if (error.value.isNotEmpty()) {
+            if (error.value.isNotEmpty() && !offline.value) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.fillMaxSize()

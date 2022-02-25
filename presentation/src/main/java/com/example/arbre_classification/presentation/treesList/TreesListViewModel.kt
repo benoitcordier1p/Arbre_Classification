@@ -56,7 +56,6 @@ class TreesListViewModel @Inject constructor(
 
             viewModelScope.launch {
                 _state.value.forEach {
-                    println("Save $it")
                     addTreeUseCase(Trees(it.id, it.espece, it.hauteurenm, it.circonferenceencm, it.adresse))
                 }
             }
