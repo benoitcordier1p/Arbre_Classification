@@ -1,4 +1,4 @@
-package com.example.data.local
+package com.example.domain.entities
 
 import com.example.domain.models.Tree
 import io.realm.RealmObject

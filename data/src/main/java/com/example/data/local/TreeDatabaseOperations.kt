@@ -1,17 +1,15 @@
 package com.example.data.local
 
 import android.content.Context
-import com.example.domain.models.Tree
+import com.example.domain.entities.Trees
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import io.realm.kotlin.executeTransactionAwait
-import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 class TreeDatabaseOperations @Inject constructor(
     private val context: Context
 ) {
-    suspend fun insertTree(tree: Tree) {
+    suspend fun insertTree(tree: Trees) {
 
         Realm.init(context)
         val config = RealmConfiguration.Builder()
@@ -21,14 +19,7 @@ class TreeDatabaseOperations @Inject constructor(
         val realm = Realm.getInstance(config)
 
         realm.executeTransaction { realmTransaction ->
-
-            val treeInsert = Trees(
-                id = tree.id,
-                espece = tree.espece,
-                hauteur = tree.hauteurenm,
-                circonference = tree.circonferenceencm,
-                adresse = tree.adresse)
-            realmTransaction.insertOrUpdate(treeInsert)
+            realmTransaction.insertOrUpdate(tree)
         }
 
     }

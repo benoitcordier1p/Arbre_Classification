@@ -5,13 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.arbre_classification.util.Constants
+import com.example.domain.entities.Trees
 import com.example.domain.models.Tree
 import com.example.domain.useCase.addTreeUseCase.AddTreeUseCase
 import com.example.domain.useCase.treesListUseCase.GetTreesUseCase
 import com.example.domain.useCase.treesListUseCase.GetTreesUseCaseFromDB
 import com.example.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.realm.RealmConfiguration
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -55,7 +55,7 @@ class TreesListViewModel @Inject constructor(
             index += 1
             println(index)
             _state.value.forEach {
-                addTreeUseCase(it)
+                addTreeUseCase(Trees(it.id, it.espece, it.hauteurenm, it.circonferenceencm, it.adresse))
             }
         }
     }

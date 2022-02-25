@@ -9,7 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 class ConnectionManager(context: Context) {
 
     //State. Updated when connection updated.
-    private val _state = mutableStateOf(false)
+    private val _state = mutableStateOf(true)
     var state: State<Boolean> = _state
 
     init {
