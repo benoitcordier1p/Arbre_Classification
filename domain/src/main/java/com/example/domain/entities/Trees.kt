@@ -9,7 +9,7 @@ data class Trees(
 
     @PrimaryKey(autoGenerate = false)
     val id : String,
-    val espece : String,
+    val espece : String?,
     val hauteur : Int,
     val circonference : Int,
     val adresse : String
@@ -21,6 +21,6 @@ fun Trees.toDomain(): Tree = Tree(
     adresse = adresse,
     circonferenceencm = circonference,
     hauteurenm = hauteur,
-    espece = espece
+    espece = espece ?: "unknown"
 )
 

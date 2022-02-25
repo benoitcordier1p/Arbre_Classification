@@ -3,45 +3,63 @@ package com.example.arbre_classification.util
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
-import android.net.NetworkCapabilities
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 
+class ConnectionManager(private val context: Context) {
 
-class ConnectionManager(context: Context) {
+    interface ConnectionManagerListener {
 
-    //State. Updated when connection updated.
-    private val _state = mutableStateOf(true)
-    var state: State<Boolean> = _state
+        enum class ConnectionState {
+            ONLINE,
+            OFFLINE
+        }
 
-    init {
-        getConnection(context)
+        fun onConnectionChanged(state: ConnectionState)
     }
 
-    private fun getConnection(context: Context){
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        connectivityManager.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
+
+    //State. Updated when connection updated.
+    var offline = true
+    private val listeners = mutableListOf<ConnectionManagerListener>()
+
+    init {
+        getConnection()
+    }
+
+    fun addListener(listener: ConnectionManagerListener) {
+        listeners.add(listener)
+        listener.onConnectionChanged(if (offline) ConnectionManagerListener.ConnectionState.OFFLINE else ConnectionManagerListener.ConnectionState.ONLINE)
+    }
+
+    fun removeListener(listener: ConnectionManagerListener) {
+        listeners.remove(listener)
+    }
+
+    private fun getConnection() {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        connectivityManager.registerDefaultNetworkCallback(object :
+            ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 try {
-                    _state.value = false
-                } catch (e :Exception){
+                    offline = false
+                    notifyListeners(ConnectionManagerListener.ConnectionState.ONLINE)
+                } catch (e: Exception) {
                     println("Too soon")
                 }
 
             }
+
             override fun onLost(network: Network) {
-                _state.value = true
+                offline = true
+                notifyListeners(ConnectionManagerListener.ConnectionState.OFFLINE)
             }
         })
-        val activeNetwork = connectivityManager.activeNetwork
-        val networkCap = connectivityManager.getNetworkCapabilities(activeNetwork)
-        if (networkCap != null) {
-            _state.value = when {
-                networkCap.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> false
-                networkCap.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> false
-                else -> true
-            }
-        }
     }
 
+    private fun notifyListeners(state: ConnectionManagerListener.ConnectionState) {
+        for (listener in listeners) {
+            listener.onConnectionChanged(state)
+        }
+    }
 }
+

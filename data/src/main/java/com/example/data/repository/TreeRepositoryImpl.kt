@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 
 class TreeRepositoryImpl @Inject constructor(
-    private val dao : TreeDao,
+    private val dao: TreeDao,
     private val api: TreeApi
 ) : TreeRepository {
 
@@ -19,9 +19,20 @@ class TreeRepositoryImpl @Inject constructor(
         it.toDomain()
     }
 
-    override suspend fun getTrees(position: String): List<Tree> = api.getTrees(position).records.map {
-        it.toDomain()
-    }
+    override suspend fun getTrees(position: String): List<Tree> =
+        api.getTrees(position).records.map {
+            println("Insert ${it.recordid}")
+            insertTrees(
+                Trees(
+                    it.recordid,
+                    it.fields.espece,
+                    it.fields.hauteurenm,
+                    it.fields.circonferenceencm,
+                    it.fields.adresse
+                )
+            )
+            it.toDomain()
+        }
 
     override suspend fun insertTrees(tree: Trees) {
         dao.insertTree(tree)

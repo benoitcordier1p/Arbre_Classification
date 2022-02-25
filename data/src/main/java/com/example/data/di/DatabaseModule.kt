@@ -4,9 +4,6 @@ import android.app.Application
 import androidx.room.Room
 import com.example.data.local.TreeDao
 import com.example.data.local.TreeDatabase
-import com.example.data.remote.TreeApi
-import com.example.data.repository.TreeRepositoryImpl
-import com.example.domain.repository.TreeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

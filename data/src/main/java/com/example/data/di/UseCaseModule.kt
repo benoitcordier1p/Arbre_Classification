@@ -31,7 +31,4 @@ object UseCaseModule {
     fun provideAddUseCase(repo: TreeRepository): AddTreeUseCase {
         return AddTreeUseCase(repo)
     }
-
-
-
 }

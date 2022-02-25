@@ -7,16 +7,13 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.arbre_classification.presentation.treesList.TreesListViewModel
-import com.example.arbre_classification.util.ConnectionManager
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -32,11 +29,13 @@ fun TreesListScreen(
     val error = remember { viewModel.error }
     val lastTree = remember { viewModel.lastTree }
 
-    val connection = ConnectionManager(LocalContext.current)
-    val offline = remember { connection.state }
-    if (offline.value) viewModel.getCacheTrees()
-    else viewModel.resetTrees()
 
+    val offline = remember { viewModel.offline }
+
+    DisposableEffect(key1 = viewModel) {
+        viewModel.onStart()
+        onDispose { viewModel.onStop() }
+    }
 
     Scaffold {
         Text(
@@ -51,7 +50,7 @@ fun TreesListScreen(
                 .background(MaterialTheme.colors.background)
         ) {
             items(state.value.size) {
-                if (it >= state.value.size - 1 && !lastTree) {
+                if (it >= state.value.size - 1 && !offline.value) {
                     viewModel.getTrees()
                 }
                 Box(modifier = Modifier.padding(12.dp)) {
@@ -68,7 +67,7 @@ fun TreesListScreen(
                     CircularProgressIndicator()
                 }
             }
-            if (error.value.isNotEmpty() && !offline.value) {
+            if (error.value.isNotEmpty() && offline.value) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.fillMaxSize()
@@ -81,6 +80,5 @@ fun TreesListScreen(
             }
         }
     }
-
-
 }
+

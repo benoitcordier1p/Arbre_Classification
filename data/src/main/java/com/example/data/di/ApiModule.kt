@@ -1,13 +1,14 @@
 package com.example.data.di
 
+import android.app.Application
 import com.example.data.remote.TreeApi
-import com.example.data.repository.TreeRepositoryImpl
-import com.example.domain.repository.TreeRepository
 import com.example.domain.util.URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Cache
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -18,7 +19,8 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun provideTreeApi(): TreeApi {
+    fun provideTreeApi(app : Application): TreeApi {
+
         return Retrofit.Builder()
             .baseUrl(URL.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
