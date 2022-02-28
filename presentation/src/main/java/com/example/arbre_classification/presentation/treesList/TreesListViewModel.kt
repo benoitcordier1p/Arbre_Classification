@@ -36,7 +36,7 @@ class TreesListViewModel @Inject constructor(
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
     //Variable used for lazy loading, updated when the user to scroll to the bottom of the list
-    private var index = 0
+    private var index = -1
 
     fun onStart() {
         connectionManager.addListener(this)
@@ -48,22 +48,21 @@ class TreesListViewModel @Inject constructor(
     }
 
     fun getTrees(force: Boolean) {
+        index += 1
         viewModelScope.launch {
             if(force) _state.value.clear()
-            getTreesUseCase.invoke(index, getFetchStrategy(force)).collect {
+            getTreesUseCase.invoke(Constants.NUMBER_OF_ROWS * index, getFetchStrategy(force)).collect {
                 when (it) {
                     is Resource.Success -> {
-                        println(index)
-                        println("${getFetchStrategy(force)} ${it.data}")
+
                         lastTree = Constants.NUMBER_OF_ROWS * index >= it.data!!.size
-                        _state.value += it.data as List<Tree>
+                        _state.value.addAll(it.data as List<Tree>)
                     }
                     is Resource.Loading -> isLoading.value = true
                     is Resource.Error -> error.value = it.message!!
                 }
             }
             isLoading.value = false
-            index += 1
         }
     }
 

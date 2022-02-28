@@ -57,7 +57,8 @@ fun TreesListScreen(
                     .background(MaterialTheme.colors.background)
             ) {
                 items(state.value.size) {
-                    if (it >= state.value.size - 1 && !offline.value && !lastTree) {
+                    if (it >= state.value.size-2 && !offline.value && !lastTree) {
+
                         viewModel.getTrees(false)
                     }
                     Box(modifier = Modifier.padding(12.dp)) {
@@ -65,7 +66,6 @@ fun TreesListScreen(
                     }
                 }
             }
-
         }
         Column {
             if (isLoading.value) {
