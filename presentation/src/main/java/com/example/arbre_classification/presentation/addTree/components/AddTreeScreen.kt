@@ -18,7 +18,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.arbre_classification.presentation.addTree.AddTreeViewModel
-import com.example.domain.entities.Trees
+import com.example.domain.models.Tree
 import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination(route = "add_tree_screen")
@@ -91,12 +91,14 @@ fun AddTreeScreen(
         )
         Button(onClick = {
             addTreeViewModel.addTree(
-                Trees(
-                    id = idText.value,
-                    espece = especeText.value,
-                    hauteur = hauteurText.value.toInt(),
-                    circonference = circonfText.value.toInt(),
-                    adresse = adresseText.value
+                listOf(
+                    Tree(
+                        id = idText.value,
+                        espece = especeText.value,
+                        hauteurenm = hauteurText.value.toInt(),
+                        circonferenceencm = circonfText.value.toInt(),
+                        adresse = adresseText.value
+                    )
                 )
             )
         }) {

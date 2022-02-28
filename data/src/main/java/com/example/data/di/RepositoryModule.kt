@@ -1,10 +1,11 @@
 package com.example.data.di
 
 import com.example.data.local.TreeDao
-import com.example.data.local.TreeDatabase
 import com.example.data.remote.TreeApi
-import com.example.data.repository.TreeRepositoryImpl
-import com.example.domain.repository.TreeRepository
+import com.example.data.repository.TreeRepositoryLocalImpl
+import com.example.data.repository.TreeRepositoryRemoteImpl
+import com.example.domain.repository.TreeRepositoryLocal
+import com.example.domain.repository.TreeRepositoryRemote
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,8 +18,14 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideTreeRepository(dao: TreeDao,api : TreeApi): TreeRepository {
-        return TreeRepositoryImpl(dao,api)
+    fun provideTreeRepositoryLocal(dao: TreeDao): TreeRepositoryLocal {
+        return TreeRepositoryLocalImpl(dao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTreeRepositoryRemote(api : TreeApi): TreeRepositoryRemote {
+        return TreeRepositoryRemoteImpl(api)
     }
 
 }

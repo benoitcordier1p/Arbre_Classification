@@ -15,4 +15,6 @@ interface TreeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTree(tree: Trees)
 
+    @Query("DELETE FROM Trees")
+    fun nukeTable()
 }

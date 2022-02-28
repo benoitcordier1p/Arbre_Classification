@@ -4,11 +4,9 @@ import com.example.domain.entities.Trees
 import com.example.domain.models.Tree
 
 
-interface TreeRepository {
+interface TreeRepositoryLocal {
 
     suspend fun getTreesRoom(): List<Tree>
 
-    suspend fun getTrees(position:String) : List<Tree>
-
-    suspend fun insertTrees(tree : Trees)
+    suspend fun insertTrees(tree : List<Tree>)
 }

@@ -1,11 +1,12 @@
 package com.example.data.di
 
-import android.app.Application
+import android.content.Context
 import com.example.data.remote.TreeApi
 import com.example.domain.util.URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -19,13 +20,25 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun provideTreeApi(app : Application): TreeApi {
-
+    fun provideTreeApi(@ApplicationContext appContext: Context): TreeApi {
         return Retrofit.Builder()
-            .baseUrl(URL.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(TreeApi::class.java)
+                .baseUrl(URL.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(getHTTPClient(appContext))
+                .build()
+                .create(TreeApi::class.java)
     }
 
+    private fun getHTTPClient(context: Context) : OkHttpClient{
+        val cacheSize = (5 * 1024 * 1024).toLong()
+        val myCache = Cache(context.cacheDir, cacheSize)
+        return OkHttpClient
+            .Builder()
+            .cache(myCache)
+            .addInterceptor { chain ->
+                var request = chain.request()
+                request = request.newBuilder().header("Cache-Control", "public, max-age=" + 60).build()
+                chain.proceed(request)
+            }.build()
+    }
 }

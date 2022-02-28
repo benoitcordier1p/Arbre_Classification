@@ -4,13 +4,15 @@ import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.example.arbre_classification.util.BaseViewModel
 import com.example.arbre_classification.util.ConnectionManager
 import com.example.arbre_classification.util.Constants
 import com.example.domain.models.Tree
 import com.example.domain.useCase.treesListUseCase.GetTreesUseCase
 import com.example.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,7 +24,7 @@ class TreesListViewModel @Inject constructor(
 ) : BaseViewModel(context), ConnectionManager.ConnectionManagerListener {
 
     //State. Updated when new tress are loaded.
-    private val _state = mutableStateOf<List<Tree>>(emptyList())
+    private val _state = mutableStateOf<MutableList<Tree>>(mutableListOf())
     var state: State<List<Tree>> = _state
 
     //Variables to define UI
@@ -30,25 +32,29 @@ class TreesListViewModel @Inject constructor(
     var error = mutableStateOf("")
     var lastTree = false
     var offline = mutableStateOf(false)
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
     //Variable used for lazy loading, updated when the user to scroll to the bottom of the list
     private var index = 0
 
     fun onStart() {
         connectionManager.addListener(this)
-        getTrees()
+        getTrees(false)
     }
 
-    fun onStop(){
+    fun onStop() {
         connectionManager.removeListener(this)
     }
 
-    fun getTrees() {
+    fun getTrees(force: Boolean) {
         viewModelScope.launch {
-            getTreesUseCase.invoke(index, getFetchStrategy()).collect {
-                println("${getFetchStrategy()} and ${it.data}")
+            if(force) _state.value.clear()
+            getTreesUseCase.invoke(index, getFetchStrategy(force)).collect {
                 when (it) {
                     is Resource.Success -> {
+                        println(index)
+                        println("${getFetchStrategy(force)} ${it.data}")
                         lastTree = Constants.NUMBER_OF_ROWS * index >= it.data!!.size
                         _state.value += it.data as List<Tree>
                     }

@@ -27,7 +27,11 @@ class ConnectionManager(private val context: Context) {
 
     fun addListener(listener: ConnectionManagerListener) {
         listeners.add(listener)
-        listener.onConnectionChanged(if (offline) ConnectionManagerListener.ConnectionState.OFFLINE else ConnectionManagerListener.ConnectionState.ONLINE)
+        listener.onConnectionChanged(if (offline) {
+            ConnectionManagerListener.ConnectionState.OFFLINE
+        } else {
+            ConnectionManagerListener.ConnectionState.ONLINE
+        })
     }
 
     fun removeListener(listener: ConnectionManagerListener) {

@@ -14,6 +14,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.arbre_classification.presentation.treesList.TreesListViewModel
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -28,7 +30,7 @@ fun TreesListScreen(
     val isLoading = remember { viewModel.isLoading }
     val error = remember { viewModel.error }
     val lastTree = remember { viewModel.lastTree }
-
+    val isRefreshing by viewModel.isRefreshing.collectAsState()
 
     val offline = remember { viewModel.offline }
 
@@ -43,20 +45,27 @@ fun TreesListScreen(
             color = MaterialTheme.colors.error,
             modifier = Modifier.alpha(if (offline.value) 1f else 0f)
         )
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .offset(y = 20.dp)
-                .background(MaterialTheme.colors.background)
+        SwipeRefresh(
+            state = SwipeRefreshState(isRefreshing),
+            onRefresh = { viewModel.getTrees(true) }
         ) {
-            items(state.value.size) {
-                if (it >= state.value.size - 1 && !offline.value) {
-                    viewModel.getTrees()
-                }
-                Box(modifier = Modifier.padding(12.dp)) {
-                    TreeListItem(tree = state.value[it], navigator = navigator)
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .offset(y = 20.dp)
+                    .background(MaterialTheme.colors.background)
+            ) {
+                items(state.value.size) {
+                    if (it >= state.value.size - 1 && !offline.value && !lastTree) {
+                        viewModel.getTrees(false)
+                    }
+                    Box(modifier = Modifier.padding(12.dp)) {
+                        TreeListItem(tree = state.value[it], navigator = navigator)
+                    }
                 }
             }
+
         }
         Column {
             if (isLoading.value) {
