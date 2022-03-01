@@ -1,17 +1,16 @@
 package com.example.arbre_classification
 
-import androidx.compose.ui.test.*
+import androidx.compose.material.Scaffold
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performScrollToIndex
 import androidx.navigation.compose.rememberNavController
-import com.example.arbre_classification.di.AppModule
-import com.example.arbre_classification.presentation.treeInfo.components.treeScreen.TreeScreen
-import com.example.arbre_classification.presentation.treesList.components.treesListScreen.TreesListScreen
+import com.example.arbre_classification.presentation.NavGraphs
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.rememberNavHostEngine
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.FixMethodOrder
@@ -20,7 +19,6 @@ import org.junit.Test
 import org.junit.runners.MethodSorters
 
 @HiltAndroidTest
-@UninstallModules(AppModule::class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class TreeListTest {
 
@@ -33,37 +31,41 @@ class TreeListTest {
     @Before
     fun setUp() {
         hiltRule.inject()
+
         composeRule.setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "TreesList"){
-                composable(route = "TreesList"){
-                    TreesListScreen(navController = navController)
-                }
-                composable(route = "TreesList/{treeId}"){
-                    TreeScreen()
-                }
+            val navHostEngine = rememberNavHostEngine()
+            Scaffold(
+                bottomBar = { BottomNavigationBar(navController = navController) }
+            ) {
+                DestinationsNavHost(
+                    navGraph = NavGraphs.root,
+                    navController = navController,
+                    engine = navHostEngine
+                )
             }
         }
     }
 
     @Test
-    fun a_treeList_isDisplayed(){
+    fun a_treeList_isDisplayed() {
         runBlocking {
-            delay(5000L)
-            composeRule.onNodeWithTag("Tree_Button_3628f6fbf88415e25dab87843fd2caa65bf7a0a6").assertIsDisplayed()
+            composeRule.onNodeWithTag("Tree_List").assertIsDisplayed()
         }
     }
 
-    //Problème sur ce test. Le performClick() ne fonctionne pas?
-    /*
     @Test
-    fun b_treeItem_isDisplayed(){
+    fun b_Trees_Are_Displayed(){
         runBlocking {
-            delay(5000L)
-            composeRule.onNodeWithTag("Tree_Button_3628f6fbf88415e25dab87843fd2caa65bf7a0a6").performClick()
-            delay(5000L)
-            composeRule.onNodeWithTag("Tree_Item_3628f6fbf88415e25dab87843fd2caa65bf7a0a6").assertIsDisplayed()
+            composeRule.onNodeWithTag("Tree_Item_0").assertIsDisplayed()
         }
     }
-    */
+
+    @Test
+    fun c_Check_Number_Of_Trees(){
+        runBlocking {
+            composeRule.onNodeWithTag("Tree_List").performScrollToIndex(19)
+            composeRule.onNodeWithTag("Tree_Item_19").assertIsDisplayed()
+        }
+    }
 }

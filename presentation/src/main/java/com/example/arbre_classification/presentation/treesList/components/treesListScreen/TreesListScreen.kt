@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.arbre_classification.presentation.treesList.TreesListViewModel
@@ -53,12 +54,16 @@ fun TreesListScreen(
                     .fillMaxWidth()
                     .offset(y = 20.dp)
                     .background(MaterialTheme.colors.background)
+                    .testTag("Tree_List")
             ) {
                 items(state.value.size) {
                     if (it >= state.value.size-1 && !offline.value && !lastTree.value) {
                         viewModel.getTrees(false)
                     }
-                    Box(modifier = Modifier.padding(12.dp)) {
+                    Box(modifier = Modifier
+                        .padding(12.dp)
+                        .testTag("Tree_Item_$it")
+                    ) {
                         TreeListItem(tree = state.value[it], navigator = navigator)
                     }
                 }

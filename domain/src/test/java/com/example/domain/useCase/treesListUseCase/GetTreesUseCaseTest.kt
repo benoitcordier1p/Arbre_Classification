@@ -20,7 +20,6 @@ class GetTreesUseCaseTest {
         fakeRepositoryLocal = FakeRepositoryLocal()
         fakeRepositoryRemote = FakeRepositoryRemote()
         getTrees = GetTreesUseCase(fakeRepositoryLocal,fakeRepositoryRemote)
-
     }
 
     @Test
