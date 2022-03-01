@@ -57,6 +57,7 @@ class TreesListViewModel @Inject constructor(
                     is Resource.Success -> {
                         lastTree.value = Constants.NUMBER_OF_ROWS * index >= it.data!!.size
                         _state.value.addAll(it.data as List<Tree>)
+                        println(_state.value.size)
                     }
                     is Resource.Loading -> isLoading.value = true
                     is Resource.Error -> error.value = it.message!!

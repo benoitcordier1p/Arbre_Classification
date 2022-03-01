@@ -6,8 +6,6 @@ import com.example.domain.repository.TreeRepositoryLocal
 import com.example.domain.repository.TreeRepositoryRemote
 import com.example.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import java.io.IOException
 import javax.inject.Inject
 
 class GetTreesUseCase @Inject constructor(

@@ -1,10 +1,8 @@
 package com.example.data.repository
 
 import com.example.data.local.TreeDao
-import com.example.domain.entities.toDomain
-import com.example.data.remote.models.toDomain
-import com.example.data.remote.TreeApi
 import com.example.domain.entities.Trees
+import com.example.domain.entities.toDomain
 import com.example.domain.models.Tree
 import com.example.domain.repository.TreeRepositoryLocal
 import com.example.domain.util.Resource
@@ -12,8 +10,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
 import javax.inject.Inject
-import javax.inject.Named
-
 
 class TreeRepositoryLocalImpl @Inject constructor(
     private val dao: TreeDao

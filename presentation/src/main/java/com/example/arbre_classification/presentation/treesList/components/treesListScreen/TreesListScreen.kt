@@ -57,7 +57,7 @@ fun TreesListScreen(
                     .testTag("Tree_List")
             ) {
                 items(state.value.size) {
-                    if (it >= state.value.size-1 && !offline.value && !lastTree.value) {
+                    if (it >= state.value.size-1 && !offline.value ) {
                         viewModel.getTrees(false)
                     }
                     Box(modifier = Modifier
