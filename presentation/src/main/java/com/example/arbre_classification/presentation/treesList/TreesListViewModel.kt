@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.arbre_classification.util.ConnectionManager
 import com.example.arbre_classification.util.Constants
 import com.example.domain.models.Tree
+import com.example.domain.useCase.addTreeUseCase.AddTreeUseCase
 import com.example.domain.useCase.treesListUseCase.GetTreesUseCase
 import com.example.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TreesListViewModel @Inject constructor(
     private val getTreesUseCase: GetTreesUseCase,
+    private val addTreeUseCase: AddTreeUseCase,
     context: Context
 ) : BaseViewModel(context),
     ConnectionManager.ConnectionManagerListener {
@@ -57,6 +59,7 @@ class TreesListViewModel @Inject constructor(
                     is Resource.Success -> {
                         lastTree.value = Constants.NUMBER_OF_ROWS * index >= it.data!!.size
                         _state.value.addAll(it.data as List<Tree>)
+                        addTreeUseCase(it.data!!)
                         println(_state.value.size)
                     }
                     is Resource.Loading -> isLoading.value = true

@@ -57,12 +57,15 @@ fun TreesListScreen(
                     .testTag("Tree_List")
             ) {
                 items(state.value.size) {
-                    if (it >= state.value.size-1 && !offline.value ) {
-                        viewModel.getTrees(false)
+                    if (it >= state.value.size - 1 && !offline.value) {
+                        LaunchedEffect(key1 = Unit, block = {
+                            viewModel.getTrees(false)
+                        })
                     }
-                    Box(modifier = Modifier
-                        .padding(12.dp)
-                        .testTag("Tree_Item_$it")
+                    Box(
+                        modifier = Modifier
+                            .padding(12.dp)
+                            .testTag("Tree_Item_$it")
                     ) {
                         TreeListItem(tree = state.value[it], navigator = navigator)
                     }
