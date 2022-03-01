@@ -31,7 +31,6 @@ fun TreesListScreen(
     val error = remember { viewModel.error }
     val lastTree = remember { viewModel.lastTree }
     val isRefreshing by viewModel.isRefreshing.collectAsState()
-
     val offline = remember { viewModel.offline }
 
     DisposableEffect(key1 = viewModel) {
@@ -47,9 +46,8 @@ fun TreesListScreen(
         )
         SwipeRefresh(
             state = SwipeRefreshState(isRefreshing),
-            onRefresh = { viewModel.getTrees(true) }
+            onRefresh = { viewModel.forceRefresh() }
         ) {
-
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -57,8 +55,7 @@ fun TreesListScreen(
                     .background(MaterialTheme.colors.background)
             ) {
                 items(state.value.size) {
-                    if (it >= state.value.size-2 && !offline.value && !lastTree) {
-
+                    if (it >= state.value.size-1 && !offline.value && !lastTree.value) {
                         viewModel.getTrees(false)
                     }
                     Box(modifier = Modifier.padding(12.dp)) {

@@ -15,29 +15,11 @@ class GetTreesUseCase @Inject constructor(
     private val repositoryRemote: TreeRepositoryRemote
 ) {
 
-    operator fun invoke(start: Int, fetchStrategy: FetchStrategy): Flow<Resource<List<Tree>>> = flow {
-        try {
-            when (fetchStrategy) {
-                FetchStrategy.Remote -> {
-                    emit(Resource.Loading<List<Tree>>())
-                    val trees = repositoryRemote.getTrees()
-                    repositoryLocal.insertTrees(trees)
-                    emit(Resource.Success<List<Tree>>(trees))
-                }
-                FetchStrategy.Local -> {
-                    emit(Resource.Loading<List<Tree>>())
-                    emit(Resource.Success<List<Tree>>(repositoryLocal.getTreesRoom()))
-                }
-                FetchStrategy.Cache -> {
-                    emit(Resource.Loading<List<Tree>>())
-                    emit(Resource.Success<List<Tree>>(repositoryRemote.getTreesFromCache(start.toString())))
-                }
-            }
-        } catch (e: Exception) {
-            emit(Resource.Error<List<Tree>>(e.localizedMessage ?: "An error occurred"))
-        } catch (e: IOException) {
-            emit(Resource.Error<List<Tree>>(e.localizedMessage ?: "Internet error. Check your connection")
-            )
+    suspend operator fun invoke(start: Int, fetchStrategy: FetchStrategy): Flow<Resource<List<Tree>>> {
+        return when (fetchStrategy) {
+            FetchStrategy.Remote -> repositoryRemote.getTrees()
+            FetchStrategy.Local -> repositoryLocal.getTreesRoom()
+            FetchStrategy.Cache -> repositoryRemote.getTreesFromCache(start.toString())
         }
     }
 }

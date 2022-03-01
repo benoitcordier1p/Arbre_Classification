@@ -21,7 +21,8 @@ import javax.inject.Inject
 class TreesListViewModel @Inject constructor(
     private val getTreesUseCase: GetTreesUseCase,
     context: Context
-) : BaseViewModel(context), ConnectionManager.ConnectionManagerListener {
+) : BaseViewModel(context),
+    ConnectionManager.ConnectionManagerListener {
 
     //State. Updated when new tress are loaded.
     private val _state = mutableStateOf<MutableList<Tree>>(mutableListOf())
@@ -30,7 +31,7 @@ class TreesListViewModel @Inject constructor(
     //Variables to define UI
     var isLoading = mutableStateOf(false)
     var error = mutableStateOf("")
-    var lastTree = false
+    var lastTree = mutableStateOf(false)
     var offline = mutableStateOf(false)
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
@@ -48,14 +49,13 @@ class TreesListViewModel @Inject constructor(
     }
 
     fun getTrees(force: Boolean) {
-        index += 1
         viewModelScope.launch {
+            index += 1
             if(force) _state.value.clear()
             getTreesUseCase.invoke(Constants.NUMBER_OF_ROWS * index, getFetchStrategy(force)).collect {
                 when (it) {
                     is Resource.Success -> {
-
-                        lastTree = Constants.NUMBER_OF_ROWS * index >= it.data!!.size
+                        lastTree.value = Constants.NUMBER_OF_ROWS * index >= it.data!!.size
                         _state.value.addAll(it.data as List<Tree>)
                     }
                     is Resource.Loading -> isLoading.value = true
@@ -68,5 +68,10 @@ class TreesListViewModel @Inject constructor(
 
     override fun onConnectionChanged(state: ConnectionManager.ConnectionManagerListener.ConnectionState) {
         offline.value = state == ConnectionManager.ConnectionManagerListener.ConnectionState.OFFLINE
+    }
+
+    fun forceRefresh(){
+        index=-1
+        getTrees(true)
     }
 }
