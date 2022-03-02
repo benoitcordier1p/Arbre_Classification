@@ -73,6 +73,9 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:1.0.0"
     kapt "com.google.dagger:hilt-android-compiler:2.38.1"
 
+    //TESTS
+    androidTestImplementation "com.google.truth:truth:1.0.1"
+
     //Module Data
     implementation project(':domain')
 

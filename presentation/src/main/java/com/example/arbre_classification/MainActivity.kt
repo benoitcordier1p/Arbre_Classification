@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -63,7 +64,9 @@ fun BottomNavigationBar(navController: NavController) {
                     Icon(
                         painterResource(id = item.icon),
                         contentDescription = item.title,
-                        modifier = Modifier.height(25.dp)
+                        modifier = Modifier
+                            .height(25.dp)
+                            .testTag("Button_${item.title}")
                     )
                 },
                 label = { Text(text = item.title, fontSize = 15.sp) },

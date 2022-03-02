@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -45,7 +46,8 @@ fun AddTreeScreen(
             onValueChange = {
                 idText.value = it
             },
-            label = { Text("id") }
+            label = { Text("id") },
+            modifier = Modifier.testTag("input_id")
         )
         Spacer(modifier = Modifier.height(30.dp))
         Text(text = "espèce")
@@ -55,7 +57,8 @@ fun AddTreeScreen(
             onValueChange = {
                 especeText.value = it
             },
-            label = { Text("espèce") }
+            label = { Text("espèce") },
+            modifier = Modifier.testTag("input_espece")
         )
         Spacer(modifier = Modifier.height(30.dp))
         Text(text = "hauteur")
@@ -66,7 +69,8 @@ fun AddTreeScreen(
                 hauteurText.value = it
             },
             label = { Text("hauteur") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier.testTag("input_hauteur")
         )
         Spacer(modifier = Modifier.height(30.dp))
         Text(text = "circonférence")
@@ -77,7 +81,8 @@ fun AddTreeScreen(
                 circonfText.value = it
             },
             label = { Text("circonférence") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier.testTag("input_circonference")
         )
         Spacer(modifier = Modifier.height(30.dp))
         Text(text = "adresse")
@@ -87,7 +92,8 @@ fun AddTreeScreen(
             onValueChange = {
                 adresseText.value = it
             },
-            label = { Text("adresse") }
+            label = { Text("adresse") },
+            modifier = Modifier.testTag("input_adresse")
         )
         Button(onClick = {
             addTreeViewModel.addTree(
@@ -102,7 +108,10 @@ fun AddTreeScreen(
                 )
             )
         }) {
-            Text(text = "Save")
+            Text(
+                text = "Save",
+                modifier = Modifier.testTag("Button_Save")
+            )
         }
     }
 }
