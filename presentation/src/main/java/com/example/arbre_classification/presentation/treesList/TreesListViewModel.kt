@@ -73,7 +73,6 @@ class TreesListViewModel @Inject constructor(
     }
 
     fun deleteTree(position:Int){
-        println("delete")
         viewModelScope.launch {
             deleteTreeUseCase(_state.value[position].id)
         }

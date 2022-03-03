@@ -63,18 +63,17 @@ fun TreesListScreen(
                             viewModel.getTrees(false)
                         })
                     }
-
-                    val dismissState = rememberDismissState(
-                        confirmStateChange = { itDismiss ->
-                            if (itDismiss == DismissValue.DismissedToEnd) {
-                                viewModel.deleteTree(it)
-                            }
-                            true
-                        }
-                    )
+                    val dismissState = rememberDismissState()
+                    if (dismissState.isDismissed(DismissDirection.StartToEnd)){
+                        LaunchedEffect(key1 = Unit, block = {
+                            viewModel.deleteTree(it)
+                            viewModel.forceRefresh()
+                            dismissState.snapTo(DismissValue.Default)
+                        })
+                    }
                     SwipeToDismiss(
                         state = dismissState,
-                        directions = setOf(),
+                        directions = setOf(DismissDirection.StartToEnd),
                         background = {
                             val color by animateColorAsState(
                                 targetValue = when (dismissState.targetValue) {
