@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.example.arbre_classification.util.ConnectionManager
 import com.example.domain.fetchstrategy.FetchStrategy
+import javax.inject.Inject
 
 open class BaseViewModel constructor(
-    context: Context
+    context: Context,
+    private val connectionManager: ConnectionManager
 ) : ViewModel() {
-
-    protected val connectionManager = ConnectionManager(context)
 
     protected fun getFetchStrategy(force : Boolean) : FetchStrategy {
         return when (!connectionManager.offline) {

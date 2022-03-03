@@ -1,12 +1,10 @@
 package com.example.arbre_classification.presentation.treesList.components.treesListScreen
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +18,7 @@ import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@OptIn(ExperimentalMaterialApi::class)
 @Destination(start = true)
 @Composable
 fun TreesListScreen(
@@ -30,9 +29,11 @@ fun TreesListScreen(
     val state = remember { viewModel.state }
     val isLoading = remember { viewModel.isLoading }
     val error = remember { viewModel.error }
-    val lastTree = remember { viewModel.lastTree }
+    //val lastTree = remember { viewModel.lastTree }
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val offline = remember { viewModel.offline }
+
+    println(state.value.size)
 
     DisposableEffect(key1 = viewModel) {
         viewModel.onStart()
@@ -62,35 +63,74 @@ fun TreesListScreen(
                             viewModel.getTrees(false)
                         })
                     }
-                    Box(
-                        modifier = Modifier
-                            .padding(12.dp)
-                            .testTag("Tree_Item_$it")
-                    ) {
-                        TreeListItem(tree = state.value[it], navigator = navigator)
-                    }
+
+                    val dismissState = rememberDismissState(
+                        confirmStateChange = { itDismiss ->
+                            if (itDismiss == DismissValue.DismissedToEnd) {
+                                viewModel.deleteTree(it)
+                            }
+                            true
+                        }
+                    )
+                    SwipeToDismiss(
+                        state = dismissState,
+                        directions = setOf(),
+                        background = {
+                            val color by animateColorAsState(
+                                targetValue = when (dismissState.targetValue) {
+                                    DismissValue.Default -> MaterialTheme.colors.background
+                                    DismissValue.DismissedToEnd -> MaterialTheme.colors.primary
+                                    DismissValue.DismissedToStart -> MaterialTheme.colors.primary
+                                }
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(color = color)
+                            )
+                        },
+                        dismissContent = {
+                            Box(
+                                modifier = Modifier
+                                    .padding(12.dp)
+                                    .testTag("Tree_Item_$it")
+                            ) {
+                                TreeListItem(tree = state.value[it], navigator = navigator)
+                            }
+                        },
+
+                        )
                 }
             }
         }
-        Column {
-            if (isLoading.value) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    CircularProgressIndicator()
-                }
+        LoadingErrorScreen(
+            isLoading = isLoading.value,
+            offline = offline.value,
+            error = error.value
+        )
+    }
+}
+
+@Composable
+fun LoadingErrorScreen(isLoading: Boolean, offline: Boolean, error: String) {
+    Column {
+        if (isLoading) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                CircularProgressIndicator()
             }
-            if (error.value.isNotEmpty() && offline.value) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Text(
-                        text = error.value,
-                        color = MaterialTheme.colors.error
-                    )
-                }
+        }
+        if (error.isNotEmpty() && offline) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = error,
+                    color = MaterialTheme.colors.error
+                )
             }
         }
     }

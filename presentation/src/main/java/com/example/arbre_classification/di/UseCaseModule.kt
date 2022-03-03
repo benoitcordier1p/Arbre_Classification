@@ -1,8 +1,9 @@
-package com.example.data.di
+package com.example.arbre_classification.di
 
 import com.example.domain.repository.TreeRepositoryLocal
 import com.example.domain.repository.TreeRepositoryRemote
 import com.example.domain.useCase.addTreeUseCase.AddTreeUseCase
+import com.example.domain.useCase.deleteTreeUseCase.DeleteTreeUseCase
 import com.example.domain.useCase.treesListUseCase.GetTreesUseCase
 import dagger.Module
 import dagger.Provides
@@ -24,5 +25,11 @@ object UseCaseModule {
     @Singleton
     fun provideAddUseCase(repo: TreeRepositoryLocal): AddTreeUseCase {
         return AddTreeUseCase(repo)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeleteUseCase(repo: TreeRepositoryLocal): DeleteTreeUseCase {
+        return DeleteTreeUseCase(repo)
     }
 }

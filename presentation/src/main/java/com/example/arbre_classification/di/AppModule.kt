@@ -1,4 +1,4 @@
-package com.example.data.di
+package com.example.arbre_classification.di
 
 import android.app.Application
 import android.content.Context

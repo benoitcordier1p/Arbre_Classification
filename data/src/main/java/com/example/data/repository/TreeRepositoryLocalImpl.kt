@@ -48,4 +48,8 @@ class TreeRepositoryLocalImpl @Inject constructor(
 
     }
 
+    override suspend fun deleteTree(tree_id: String) {
+        dao.deleteTree(tree_id = tree_id)
+    }
+
 }

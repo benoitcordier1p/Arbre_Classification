@@ -8,6 +8,7 @@ import com.example.arbre_classification.util.ConnectionManager
 import com.example.arbre_classification.util.Constants
 import com.example.domain.models.Tree
 import com.example.domain.useCase.addTreeUseCase.AddTreeUseCase
+import com.example.domain.useCase.deleteTreeUseCase.DeleteTreeUseCase
 import com.example.domain.useCase.treesListUseCase.GetTreesUseCase
 import com.example.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,13 +23,15 @@ import javax.inject.Inject
 class TreesListViewModel @Inject constructor(
     private val getTreesUseCase: GetTreesUseCase,
     private val addTreeUseCase: AddTreeUseCase,
+    private val deleteTreeUseCase: DeleteTreeUseCase,
+    private val connectionManager: ConnectionManager,
     context: Context
-) : BaseViewModel(context),
+) : BaseViewModel(context,connectionManager),
     ConnectionManager.ConnectionManagerListener {
 
     //State. Updated when new tress are loaded.
     private val _state = mutableStateOf<MutableList<Tree>>(mutableListOf())
-    var state: State<List<Tree>> = _state
+    val state: State<List<Tree>> = _state
 
     //Variables to define UI
     var isLoading = mutableStateOf(false)
@@ -60,7 +63,6 @@ class TreesListViewModel @Inject constructor(
                         lastTree.value = Constants.NUMBER_OF_ROWS * index >= it.data!!.size
                         _state.value.addAll(it.data as List<Tree>)
                         addTreeUseCase(it.data!!)
-                        println(_state.value.size)
                     }
                     is Resource.Loading -> isLoading.value = true
                     is Resource.Error -> error.value = it.message!!
@@ -68,6 +70,14 @@ class TreesListViewModel @Inject constructor(
             }
             isLoading.value = false
         }
+    }
+
+    fun deleteTree(position:Int){
+        println("delete")
+        viewModelScope.launch {
+            deleteTreeUseCase(_state.value[position].id)
+        }
+        _state.value.removeAt(position)
     }
 
     override fun onConnectionChanged(state: ConnectionManager.ConnectionManagerListener.ConnectionState) {
