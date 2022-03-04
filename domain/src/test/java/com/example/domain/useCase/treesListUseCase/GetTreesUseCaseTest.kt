@@ -1,8 +1,8 @@
 package com.example.domain.useCase.treesListUseCase
 
 import com.example.domain.fetchstrategy.FetchStrategy
-import com.example.domain.repository.FakeRepositoryLocal
-import com.example.domain.repository.FakeRepositoryRemote
+import com.example.data.repository.FakeRepositoryLocal
+import com.example.data.repository.FakeRepositoryRemote
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
