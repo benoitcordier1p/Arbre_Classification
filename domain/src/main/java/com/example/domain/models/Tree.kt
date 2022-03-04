@@ -1,7 +1,7 @@
 package com.example.domain.models
 
 import android.os.Parcelable
-import com.example.data.local.Trees
+import com.example.data.local.model.Trees
 import com.example.data.remote.models.Record
 import kotlinx.parcelize.Parcelize
 
@@ -43,7 +43,7 @@ fun Tree.toEntity() : Trees = Trees(
     adresse = adresse,
     circonference = circonferenceencm,
     hauteur = hauteurenm,
-    espece = espece ?: "unknown"
+    espece = espece
 )
 
 

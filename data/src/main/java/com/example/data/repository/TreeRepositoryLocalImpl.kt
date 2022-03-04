@@ -1,7 +1,7 @@
 package com.example.data.repository
 
 import com.example.data.local.TreeDao
-import com.example.data.local.Trees
+import com.example.data.local.model.Trees
 import javax.inject.Inject
 
 class TreeRepositoryLocalImpl @Inject constructor(
