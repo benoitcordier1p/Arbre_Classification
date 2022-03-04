@@ -2,7 +2,7 @@ package com.example.data.di
 
 import android.content.Context
 import com.example.data.remote.TreeApi
-import com.example.domain.util.URL
+import com.example.data.util.URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

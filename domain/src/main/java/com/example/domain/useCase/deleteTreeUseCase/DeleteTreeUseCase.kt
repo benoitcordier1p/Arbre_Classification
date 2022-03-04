@@ -1,6 +1,6 @@
 package com.example.domain.useCase.deleteTreeUseCase
 
-import com.example.domain.repository.TreeRepositoryLocal
+import com.example.data.repository.TreeRepositoryLocal
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject

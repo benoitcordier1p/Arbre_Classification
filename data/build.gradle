@@ -76,7 +76,5 @@ dependencies {
     //TESTS
     androidTestImplementation "com.google.truth:truth:1.0.1"
 
-    //Module Data
-    implementation project(':domain')
 
 }

@@ -1,7 +1,7 @@
 package com.example.arbre_classification.di
 
-import com.example.domain.repository.TreeRepositoryLocal
-import com.example.domain.repository.TreeRepositoryRemote
+import com.example.data.repository.TreeRepositoryLocal
+import com.example.data.repository.TreeRepositoryRemote
 import com.example.domain.useCase.addTreeUseCase.AddTreeUseCase
 import com.example.domain.useCase.deleteTreeUseCase.DeleteTreeUseCase
 import com.example.domain.useCase.treesListUseCase.GetTreesUseCase
@@ -17,7 +17,7 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideUseCase(repoLocal: TreeRepositoryLocal,repoRemote: TreeRepositoryRemote): GetTreesUseCase {
+    fun provideUseCase(repoLocal: TreeRepositoryLocal, repoRemote: TreeRepositoryRemote): GetTreesUseCase {
         return GetTreesUseCase(repoLocal,repoRemote)
     }
 

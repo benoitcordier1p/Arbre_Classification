@@ -1,4 +1,4 @@
-package com.example.domain.util
+package com.example.data.util
 
 object URL {
 
