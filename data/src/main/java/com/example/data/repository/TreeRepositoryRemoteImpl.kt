@@ -15,5 +15,4 @@ class TreeRepositoryRemoteImpl @Inject constructor(
     override suspend fun getTreesFromCache(position: String): List<Record> {
         return api.getTrees(position).records
     }
-
 }

@@ -2,9 +2,9 @@ package com.example.domain.useCase.treesListUseCase
 
 import com.example.data.remote.errorHandler.ErrorHandler
 import com.example.data.remote.errorHandler.ErrorHandlerImpl
-import com.example.domain.fetchstrategy.FetchStrategy
 import com.example.data.repository.FakeRepositoryLocal
 import com.example.data.repository.FakeRepositoryRemote
+import com.example.domain.fetchstrategy.FetchStrategy
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals

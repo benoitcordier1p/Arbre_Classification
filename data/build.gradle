@@ -49,9 +49,14 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test.ext:junit:1.1.3"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.1.1"
+    debugImplementation "androidx.compose.ui:ui-tooling:1.1.1"
+    implementation "com.google.code.gson:gson:2.8.6"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
+    implementation "com.google.accompanist:accompanist-swiperefresh:0.24.3-alpha"
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -75,6 +80,8 @@ dependencies {
 
     //TESTS
     androidTestImplementation "com.google.truth:truth:1.1.3"
-
+    testImplementation 'androidx.test:core:1.4.0'
+    testImplementation 'androidx.test.ext:truth:1.4.0'
+    testImplementation 'com.google.truth:truth:1.1.3'
 
 }
