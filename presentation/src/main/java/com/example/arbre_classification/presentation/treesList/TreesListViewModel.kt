@@ -31,7 +31,7 @@ class TreesListViewModel @Inject constructor(
     ConnectionManager.ConnectionManagerListener {
 
     //State. Updated when new tress are loaded.
-    private val _state = mutableStateOf<MutableList<Tree>>(mutableListOf())
+    private val _state = mutableStateOf<List<Tree>>(listOf())
     val state: State<List<Tree>> = _state
 
     //Variables to define UI
@@ -57,12 +57,12 @@ class TreesListViewModel @Inject constructor(
     fun getTrees(force: Boolean) {
         viewModelScope.launch {
             index += 1
-            if(force) _state.value.clear()
+            error.value=""
             getTreesUseCase.invoke(Constants.NUMBER_OF_ROWS * index, getFetchStrategy(force)).collect {
                 when (it) {
                     is Resource.Success -> {
-                        lastTree.value = Constants.NUMBER_OF_ROWS * index >= it.data!!.size
-                        _state.value.addAll(it.data as List<Tree>)
+                        lastTree.value = Constants.NUMBER_OF_ROWS * index > it.data!!.size
+                        _state.value+=(it.data as List<Tree>)
                         addTreeUseCase(it.data!!)
                     }
                     is Resource.Loading -> isLoading.value = true
@@ -82,7 +82,9 @@ class TreesListViewModel @Inject constructor(
         viewModelScope.launch {
             deleteTreeUseCase(_state.value[position].id)
         }
-        _state.value.removeAt(position)
+        val mutableClone = _state.value as MutableList<Tree>
+        mutableClone.removeAt(position)
+        _state.value = mutableClone
     }
 
     override fun onConnectionChanged(state: ConnectionManager.ConnectionManagerListener.ConnectionState) {
@@ -91,6 +93,9 @@ class TreesListViewModel @Inject constructor(
 
     fun forceRefresh(){
         index=-1
+        val mutableClone = _state.value as MutableList<Tree>
+        mutableClone.clear()
+        _state.value = mutableClone
         getTrees(true)
     }
 }

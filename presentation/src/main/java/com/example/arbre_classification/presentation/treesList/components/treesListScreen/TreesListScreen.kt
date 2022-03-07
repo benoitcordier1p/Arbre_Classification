@@ -29,7 +29,7 @@ fun TreesListScreen(
     val state = remember { viewModel.state }
     val isLoading = remember { viewModel.isLoading }
     val error = remember { viewModel.error }
-    //val lastTree = remember { viewModel.lastTree }
+    val lastTree = remember { viewModel.lastTree }
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val offline = remember { viewModel.offline }
 
@@ -103,15 +103,13 @@ fun TreesListScreen(
             }
         }
         LoadingErrorScreen(
-            isLoading = isLoading.value,
-            offline = offline.value,
-            error = error.value
+            isLoading = isLoading.value
         )
     }
 }
 
 @Composable
-fun LoadingErrorScreen(isLoading: Boolean, offline: Boolean, error: String) {
+fun LoadingErrorScreen(isLoading: Boolean) {
     Column {
         if (isLoading) {
             Box(
@@ -121,19 +119,6 @@ fun LoadingErrorScreen(isLoading: Boolean, offline: Boolean, error: String) {
                 CircularProgressIndicator()
             }
         }
-        /*
-        if (error.isNotEmpty() && offline) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = error,
-                    color = MaterialTheme.colors.error
-                )
-            }
-        }
-        */
     }
 }
 
