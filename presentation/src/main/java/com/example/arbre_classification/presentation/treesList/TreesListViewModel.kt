@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.arbre_classification.util.ConnectionManager
 import com.example.arbre_classification.util.Constants
+import com.example.data.remote.errorHandler.ErrorEntity
 import com.example.domain.models.Tree
 import com.example.domain.useCase.addTreeUseCase.AddTreeUseCase
 import com.example.domain.useCase.deleteTreeUseCase.DeleteTreeUseCase
@@ -65,7 +66,12 @@ class TreesListViewModel @Inject constructor(
                         addTreeUseCase(it.data!!)
                     }
                     is Resource.Loading -> isLoading.value = true
-                    is Resource.Error -> error.value = it.message!!
+                    is Resource.Error -> error.value = when(it.error){
+                        is ErrorEntity.Network -> "A network error has occurred"
+                        is ErrorEntity.NotFound -> "API endpoint not found"
+                        is ErrorEntity.ServiceUnavailable -> "Service Unavailable. Check your internet connection"
+                        else -> "An unexpected error has occurred. Please try again later"
+                    }
                 }
             }
             isLoading.value = false

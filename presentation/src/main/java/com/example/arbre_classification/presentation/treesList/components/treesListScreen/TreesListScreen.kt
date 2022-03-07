@@ -42,9 +42,9 @@ fun TreesListScreen(
 
     Scaffold {
         Text(
-            text = "You are currently offline",
+            text = error.value,
             color = MaterialTheme.colors.error,
-            modifier = Modifier.alpha(if (offline.value) 1f else 0f)
+            modifier = Modifier.alpha(if (error.value.isNotEmpty()) 1f else 0f)
         )
         SwipeRefresh(
             state = SwipeRefreshState(isRefreshing),
@@ -121,6 +121,7 @@ fun LoadingErrorScreen(isLoading: Boolean, offline: Boolean, error: String) {
                 CircularProgressIndicator()
             }
         }
+        /*
         if (error.isNotEmpty() && offline) {
             Box(
                 contentAlignment = Alignment.Center,
@@ -132,6 +133,7 @@ fun LoadingErrorScreen(isLoading: Boolean, offline: Boolean, error: String) {
                 )
             }
         }
+        */
     }
 }
 

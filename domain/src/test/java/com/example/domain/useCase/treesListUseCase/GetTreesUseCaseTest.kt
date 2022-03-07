@@ -1,5 +1,7 @@
 package com.example.domain.useCase.treesListUseCase
 
+import com.example.data.remote.errorHandler.ErrorHandler
+import com.example.data.remote.errorHandler.ErrorHandlerImpl
 import com.example.domain.fetchstrategy.FetchStrategy
 import com.example.data.repository.FakeRepositoryLocal
 import com.example.data.repository.FakeRepositoryRemote
@@ -14,12 +16,14 @@ class GetTreesUseCaseTest {
     private lateinit var getTrees : GetTreesUseCase
     private lateinit var fakeRepositoryLocal: FakeRepositoryLocal
     private lateinit var fakeRepositoryRemote: FakeRepositoryRemote
+    private lateinit var errorHandler: ErrorHandler
 
     @Before
     fun setUp(){
         fakeRepositoryLocal = FakeRepositoryLocal()
         fakeRepositoryRemote = FakeRepositoryRemote()
-        getTrees = GetTreesUseCase(fakeRepositoryLocal,fakeRepositoryRemote)
+        errorHandler = ErrorHandlerImpl()
+        getTrees = GetTreesUseCase(fakeRepositoryLocal,fakeRepositoryRemote,errorHandler)
     }
 
     @Test
