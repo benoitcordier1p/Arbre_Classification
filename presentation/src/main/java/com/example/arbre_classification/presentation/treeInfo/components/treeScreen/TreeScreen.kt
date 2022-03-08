@@ -1,9 +1,11 @@
 package com.example.arbre_classification.presentation.treeInfo.components.treeScreen
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -20,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.arbre_classification.R
 import com.example.arbre_classification.presentation.ui.theme.Arbre_ClassificationTheme
+import com.example.arbre_classification.util.WindowInfo
+import com.example.arbre_classification.util.rememberWindowInfo
 import com.example.domain.models.Tree
 import com.example.domain.models.mock
 import com.ramcosta.composedestinations.annotation.Destination
@@ -55,9 +59,9 @@ fun TreeScreen(tree: Tree) {
 }
 
 @Composable
-fun TreeDescription(
-    tree: Tree
-) {
+fun TreeDescription(tree: Tree) {
+    val windowInfo = rememberWindowInfo()
+
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -83,11 +87,29 @@ fun TreeDescription(
     )
 
     Spacer(modifier = Modifier.size(10.dp))
+    if(windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact){
+        CompactScreenDescription(tree = tree)
+    } else{
+        LargeScreenDescription(tree = tree)
+    }
 
+
+}
+
+@Composable
+fun CompactScreenDescription(tree : Tree){
     Text(
         text = "Espèce : ${tree.espece}",
         style = MaterialTheme.typography.h5
     )
+
+    Spacer(modifier = Modifier.size(10.dp))
+
+    Text(
+        text = "Adresse : ${tree.adresse}",
+        style = MaterialTheme.typography.h5
+    )
+
 
     Spacer(modifier = Modifier.size(10.dp))
 
@@ -118,15 +140,62 @@ fun TreeDescription(
         )
     }
 
-    Spacer(modifier = Modifier.size(10.dp))
 
-    Text(
-        text = "Adresse : ${tree.adresse}",
-        style = MaterialTheme.typography.h5
-    )
 
 }
 
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun LargeScreenDescription(tree : Tree) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Text(
+                text = "Espèce : ${tree.espece}",
+                style = MaterialTheme.typography.h5 ,
+                modifier = Modifier.weight(0.5F)
+            )
+
+            Text(
+                text = "Adresse : ${tree.adresse}",
+                style = MaterialTheme.typography.h5,
+                modifier = Modifier.weight(0.5F)
+            )
+
+        }
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Spacer(modifier = Modifier.size(10.dp))
+
+            Row (modifier = Modifier.weight(0.5F)){
+                Icon(
+                    painter = painterResource(id = R.drawable.circ),
+                    contentDescription = "circonferenceIcon",
+                    tint = MaterialTheme.colors.onSurface,
+                    modifier = Modifier.size(30.dp)
+                )
+                Text(
+                    text = "Circonférence : ${tree.circonferenceencm}cm",
+                    style = MaterialTheme.typography.h5
+                )
+            }
+            Row(modifier = Modifier.weight(0.5F)) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_height),
+                    contentDescription = null,
+                    tint = MaterialTheme.colors.onSurface
+                )
+                Text(
+                    text = "Hauteur : ${tree.hauteurenm}m",
+                    style = MaterialTheme.typography.h5
+                )
+            }
+        }
+    }
+
+
+
+}
 @Composable
 @Preview
 fun PreviewTreeDescription() {
