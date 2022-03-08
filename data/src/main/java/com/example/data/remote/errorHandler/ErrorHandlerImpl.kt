@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class ErrorHandlerImpl @Inject constructor() : ErrorHandler {
 
-    override fun getError(throwable: Throwable): ErrorEntity {
+    override operator fun invoke(throwable: Throwable): ErrorEntity {
         return when (throwable) {
             is IOException -> ErrorEntity.Network
             is HttpException -> {

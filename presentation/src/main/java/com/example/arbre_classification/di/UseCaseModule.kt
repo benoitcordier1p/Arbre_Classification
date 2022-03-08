@@ -18,8 +18,8 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideUseCase(repoLocal: TreeRepositoryLocal, repoRemote: TreeRepositoryRemote,errorHandler: ErrorHandlerImpl): GetTreesUseCase {
-        return GetTreesUseCase(repoLocal,repoRemote,errorHandler)
+    fun provideUseCase(repoLocal: TreeRepositoryLocal, repoRemote: TreeRepositoryRemote): GetTreesUseCase {
+        return GetTreesUseCase(repoLocal,repoRemote)
     }
 
     @Provides

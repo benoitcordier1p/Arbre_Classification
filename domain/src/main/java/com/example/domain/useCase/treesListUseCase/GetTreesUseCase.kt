@@ -1,6 +1,6 @@
 package com.example.domain.useCase.treesListUseCase
 
-import com.example.data.remote.errorHandler.ErrorHandler
+import com.example.data.remote.errorHandler.ErrorHandlerImpl
 import com.example.data.repository.TreeRepositoryLocal
 import com.example.data.repository.TreeRepositoryRemote
 import com.example.domain.fetchstrategy.FetchStrategy
@@ -14,8 +14,9 @@ import javax.inject.Inject
 class GetTreesUseCase @Inject constructor(
     private val repositoryLocal: TreeRepositoryLocal,
     private val repositoryRemote: TreeRepositoryRemote,
-    private val errorHandler: ErrorHandler
 ) {
+
+    private val errorHandlerImpl= ErrorHandlerImpl()
 
     suspend operator fun invoke(
         start: Int,
@@ -31,7 +32,7 @@ class GetTreesUseCase @Inject constructor(
             }
             emit(Resource.Success<List<Tree>>(trees))
         } catch (e: Throwable) {
-            emit(Resource.Error<List<Tree>>(errorHandler.getError(e)))
+            emit(Resource.Error<List<Tree>>(errorHandlerImpl(e)))
         }
     }
 }
