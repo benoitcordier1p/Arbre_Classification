@@ -13,6 +13,7 @@ import com.example.domain.useCase.deleteTreeUseCase.DeleteTreeUseCase
 import com.example.domain.useCase.treesListUseCase.GetTreesUseCase
 import com.example.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,14 +34,21 @@ class TreesListViewModel @Inject constructor(
     //State. Updated when new tress are loaded.
     private val _state = mutableStateOf<List<Tree>>(listOf())
     val state: State<List<Tree>> = _state
+    var savedTreeList = listOf<Tree>()
 
     //Variables to define UI
     var isLoading = mutableStateOf(false)
     var error = mutableStateOf("")
     var lastTree = mutableStateOf(false)
+
+    //State used to refresh the list on connection changes
     var offline = mutableStateOf(false)
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+
+    //Variable for search
+    private var isSearchStarting = true
+    var isSearching = mutableStateOf(false)
 
     //Variable used for lazy loading, updated when the user to scroll to the bottom of the list
     private var index = -1
@@ -85,6 +93,32 @@ class TreesListViewModel @Inject constructor(
         val mutableClone = _state.value as MutableList<Tree>
         mutableClone.removeAt(position)
         _state.value = mutableClone
+    }
+
+    fun searchTree(query: String) {
+        val listToSearch = if(isSearchStarting) {
+            _state.value
+        } else {
+            savedTreeList
+        }
+        viewModelScope.launch(Dispatchers.Default) {
+            if(query.isEmpty()) {
+                _state.value = savedTreeList
+                isSearching.value = false
+                isSearchStarting = true
+                return@launch
+            }
+            val results = listToSearch.filter {
+                it.id.contains(query.trim(), ignoreCase = true) ||
+                        it.espece.contains(query.trim(), ignoreCase = true)
+            }
+            if(isSearchStarting) {
+                savedTreeList = _state.value
+                isSearchStarting = false
+            }
+            _state.value = results
+            isSearching.value = true
+        }
     }
 
     override fun onConnectionChanged(state: ConnectionManager.ConnectionManagerListener.ConnectionState) {

@@ -4,12 +4,20 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.arbre_classification.presentation.treesList.TreesListViewModel
@@ -46,6 +54,15 @@ fun TreesListScreen(
             color = MaterialTheme.colors.error,
             modifier = Modifier.alpha(if (error.value.isNotEmpty()) 1f else 0f)
         )
+        SearchBar(
+            hint = "Search...",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .offset(y = 20.dp)
+        ) {
+            viewModel.searchTree(it)
+        }
         SwipeRefresh(
             state = SwipeRefreshState(isRefreshing),
             onRefresh = { viewModel.forceRefresh() }
@@ -53,18 +70,19 @@ fun TreesListScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .offset(y = 20.dp)
+                    .offset(y = 100.dp)
                     .background(MaterialTheme.colors.background)
                     .testTag("Tree_List")
             ) {
                 items(state.value.size) {
+                    println(state.value.size)
                     if (it >= state.value.size - 1 && !offline.value) {
                         LaunchedEffect(key1 = Unit, block = {
                             viewModel.getTrees(false)
                         })
                     }
                     val dismissState = rememberDismissState()
-                    if (dismissState.isDismissed(DismissDirection.StartToEnd)){
+                    if (dismissState.isDismissed(DismissDirection.StartToEnd)) {
                         LaunchedEffect(key1 = Unit, block = {
                             viewModel.deleteTree(it)
                             viewModel.forceRefresh()
@@ -94,17 +112,62 @@ fun TreesListScreen(
                                     .padding(12.dp)
                                     .testTag("Tree_Item_$it")
                             ) {
-                                TreeListItem(tree = state.value[it], navigator = navigator)
+                                if (it < state.value.size) {
+                                    TreeListItem(tree = state.value[it], navigator = navigator)
+                                }
+
                             }
                         },
-
-                        )
+                    )
                 }
             }
         }
         LoadingErrorScreen(
             isLoading = isLoading.value
         )
+    }
+}
+
+@Composable
+fun SearchBar(
+    modifier: Modifier = Modifier,
+    hint: String = "",
+    onSearch: (String) -> Unit = {}
+) {
+    var text by remember {
+        mutableStateOf("")
+    }
+    var isHintDisplayed by remember {
+        mutableStateOf(hint != "")
+    }
+    val focusRequester = FocusRequester()
+
+    Box(modifier = modifier) {
+        BasicTextField(
+            value = text,
+            onValueChange = {
+                text = it
+                onSearch(it)
+            },
+            maxLines = 1,
+            singleLine = true,
+            textStyle = TextStyle(color = Color.Black),
+            modifier = Modifier
+                .fillMaxWidth()
+                .shadow(5.dp, CircleShape)
+                .background(Color.White, CircleShape)
+                .padding(horizontal = 20.dp, vertical = 12.dp)
+                .focusRequester(focusRequester)
+                .onFocusChanged { isHintDisplayed = !it.isFocused }
+        )
+        if (isHintDisplayed) {
+            Text(
+                text = hint,
+                color = Color.LightGray,
+                modifier = Modifier
+                    .padding(horizontal = 20.dp, vertical = 12.dp)
+            )
+        }
     }
 }
 
