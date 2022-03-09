@@ -5,8 +5,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -15,11 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.arbre_classification.R
 import com.example.arbre_classification.presentation.ui.theme.Arbre_ClassificationTheme
 import com.example.arbre_classification.util.WindowInfo
@@ -63,33 +65,22 @@ fun TreeDescription(tree: Tree) {
     val windowInfo = rememberWindowInfo()
 
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
+        TreeImageCard(
             painter = painterResource(R.drawable.tree),
             contentDescription = "Image of the tree",
-            modifier = Modifier.size(150.dp)
+            title = "Arbre n°${tree.id}",
         )
     }
 
     Spacer(modifier = Modifier.size(10.dp))
-
-    Text(
-        text = "Arbre n° ${tree.id}",
-        style = MaterialTheme.typography.button,
-        color = MaterialTheme.colors.primary,
-        modifier = Modifier
-            .background(Color.White, RoundedCornerShape(10.dp))
-            .padding(5.dp)
-            .testTag("Tree_Item_${tree.id}"),
-        textAlign = TextAlign.Center
-    )
-
-    Spacer(modifier = Modifier.size(10.dp))
-    if(windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact){
+    if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact) {
         CompactScreenDescription(tree = tree)
-    } else{
+    } else {
         LargeScreenDescription(tree = tree)
     }
 
@@ -97,7 +88,51 @@ fun TreeDescription(tree: Tree) {
 }
 
 @Composable
-fun CompactScreenDescription(tree : Tree){
+fun TreeImageCard(
+    painter: Painter,
+    contentDescription: String,
+    title: String
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(15.dp),
+        elevation = 10.dp
+    ) {
+        Box(
+            modifier = Modifier
+                .height(300.dp)
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            Color.Black,
+                        ),
+                        startY = 200f
+                    )
+                )
+        ) {
+            Image(
+                painter = painter,
+                contentDescription = contentDescription,
+                contentScale = ContentScale.Crop
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(12.dp),
+                contentAlignment = Alignment.BottomStart
+            ) {
+                Text(
+                    title,
+                    style = TextStyle(color = Color.White, fontSize = 14.sp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun CompactScreenDescription(tree: Tree) {
     Text(
         text = "Espèce : ${tree.espece}",
         style = MaterialTheme.typography.h5
@@ -141,19 +176,19 @@ fun CompactScreenDescription(tree : Tree){
     }
 
 
-
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun LargeScreenDescription(tree : Tree) {
+fun LargeScreenDescription(tree: Tree) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        Row(modifier = Modifier.fillMaxWidth(),
+        Row(
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Text(
                 text = "Espèce : ${tree.espece}",
-                style = MaterialTheme.typography.h5 ,
+                style = MaterialTheme.typography.h5,
                 modifier = Modifier.weight(0.5F)
             )
 
@@ -167,7 +202,7 @@ fun LargeScreenDescription(tree : Tree) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Spacer(modifier = Modifier.size(10.dp))
 
-            Row (modifier = Modifier.weight(0.5F)){
+            Row(modifier = Modifier.weight(0.5F)) {
                 Icon(
                     painter = painterResource(id = R.drawable.circ),
                     contentDescription = "circonferenceIcon",
@@ -191,11 +226,12 @@ fun LargeScreenDescription(tree : Tree) {
                 )
             }
         }
+        Spacer(modifier = Modifier.height(50.dp))
     }
 
 
-
 }
+
 @Composable
 @Preview
 fun PreviewTreeDescription() {

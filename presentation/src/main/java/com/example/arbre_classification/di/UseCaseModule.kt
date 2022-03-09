@@ -1,6 +1,5 @@
 package com.example.arbre_classification.di
 
-import com.example.data.remote.errorHandler.ErrorHandlerImpl
 import com.example.data.repository.TreeRepositoryLocal
 import com.example.data.repository.TreeRepositoryRemote
 import com.example.domain.useCase.addTreeUseCase.AddTreeUseCase
