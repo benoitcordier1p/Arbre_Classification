@@ -73,7 +73,6 @@ fun TreesListScreen(
                     .testTag("Tree_List")
             ) {
                 items(state.value.size) {
-                    println(state.value.size)
                     if (it >= state.value.size - 1 && !offline && !endReached) {
                         LaunchedEffect(key1 = Unit, block = {
                             viewModel.getTrees(false)
@@ -82,7 +81,7 @@ fun TreesListScreen(
                     val dismissState = rememberDismissState()
                     if (dismissState.isDismissed(DismissDirection.StartToEnd)) {
                         LaunchedEffect(key1 = Unit, block = {
-                            viewModel.deleteTree(it)
+                            viewModel.deleteTree(state.value[it])
                             viewModel.forceRefresh()
                             dismissState.snapTo(DismissValue.Default)
                         })

@@ -3,6 +3,7 @@ package com.example.arbre_classification.presentation.treeInfo.components.treeSc
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,6 +11,8 @@ import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,10 +28,12 @@ import androidx.compose.ui.unit.sp
 import com.example.arbre_classification.R
 import com.example.arbre_classification.presentation.ui.theme.Arbre_ClassificationTheme
 import com.example.arbre_classification.util.WindowInfo
+import com.example.arbre_classification.util.event.RxEventHandler
+import com.example.arbre_classification.util.event.TreeEvent
 import com.example.arbre_classification.util.rememberWindowInfo
 import com.example.domain.models.Tree
-import com.example.domain.models.mock
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Destination
 @Composable
@@ -84,6 +89,17 @@ fun TreeDescription(tree: Tree) {
         LargeScreenDescription(tree = tree)
     }
 
+    Icon(
+        imageVector = Icons.Default.Delete,
+        contentDescription = null,
+        tint = Color.Black,
+        modifier = Modifier
+            .padding(top = (7.5).dp)
+            .size(30.dp)
+            .clickable {
+                RxEventHandler.publishEvent(TreeEvent.DeleteTree(tree))
+            }
+    )
 
 }
 
@@ -237,7 +253,7 @@ fun LargeScreenDescription(tree: Tree) {
 fun PreviewTreeDescription() {
     Arbre_ClassificationTheme {
         Column {
-            TreeDescription(tree = mock())
+
         }
     }
 }
