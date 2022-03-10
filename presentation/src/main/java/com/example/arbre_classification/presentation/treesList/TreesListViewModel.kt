@@ -1,6 +1,5 @@
 package com.example.arbre_classification.presentation.treesList
 
-import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
@@ -26,10 +25,8 @@ class TreesListViewModel @Inject constructor(
     private val getTreesUseCase: GetTreesUseCase,
     private val addTreeUseCase: AddTreeUseCase,
     private val deleteTreeUseCase: DeleteTreeUseCase,
-    private val connectionManager: ConnectionManager,
-    context: Context
-) : BaseViewModel(context,connectionManager),
-    ConnectionManager.ConnectionManagerListener {
+    connectionManager: ConnectionManager,
+) : BaseViewModel(connectionManager) {
 
     //State. Updated when new tress are loaded.
     private val _state = mutableStateOf<List<Tree>>(listOf())
@@ -42,7 +39,6 @@ class TreesListViewModel @Inject constructor(
     var lastTree = mutableStateOf(false)
 
     //State used to refresh the list on connection changes
-    var offline = mutableStateOf(false)
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
@@ -53,13 +49,8 @@ class TreesListViewModel @Inject constructor(
     //Variable used for lazy loading, updated when the user to scroll to the bottom of the list
     private var index = -1
 
-    fun onStart() {
-        connectionManager.addListener(this)
+    init {
         getTrees(false)
-    }
-
-    fun onStop() {
-        connectionManager.removeListener(this)
     }
 
     fun getTrees(force: Boolean) {
@@ -119,10 +110,6 @@ class TreesListViewModel @Inject constructor(
             _state.value = results
             isSearching.value = true
         }
-    }
-
-    override fun onConnectionChanged(state: ConnectionManager.ConnectionManagerListener.ConnectionState) {
-        offline.value = state == ConnectionManager.ConnectionManagerListener.ConnectionState.OFFLINE
     }
 
     fun forceRefresh(){

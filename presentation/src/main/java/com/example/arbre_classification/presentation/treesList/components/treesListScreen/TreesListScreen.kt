@@ -41,18 +41,16 @@ fun TreesListScreen(
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val offline = remember { viewModel.offline }
 
-    println(state.value.size)
-
-    DisposableEffect(key1 = viewModel) {
-        viewModel.onStart()
-        onDispose { viewModel.onStop() }
-    }
-
     Scaffold {
         Text(
             text = error.value,
             color = MaterialTheme.colors.error,
             modifier = Modifier.alpha(if (error.value.isNotEmpty()) 1f else 0f)
+        )
+        Text(
+            text = "You are currently offline",
+            color = MaterialTheme.colors.error,
+            modifier = Modifier.alpha(if (error.value.isEmpty() && offline.value) 1f else 0f)
         )
         SearchBar(
             hint = "Search...",
