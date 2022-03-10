@@ -36,7 +36,7 @@ class TreesListViewModel @Inject constructor(
     //Variables to define UI
     var isLoading = mutableStateOf(false)
     var error = mutableStateOf("")
-    var lastTree = mutableStateOf(false)
+    var endReached = mutableStateOf(false)
 
     //State used to refresh the list on connection changes
     private val _isRefreshing = MutableStateFlow(false)
@@ -60,7 +60,7 @@ class TreesListViewModel @Inject constructor(
             getTreesUseCase.invoke(Constants.NUMBER_OF_ROWS * index, getFetchStrategy(force)).collect {
                 when (it) {
                     is Resource.Success -> {
-                        lastTree.value = Constants.NUMBER_OF_ROWS * index > it.data!!.size
+                        endReached.value = index * Constants.NUMBER_OF_ROWS >= it.data!!.size
                         _state.value+=(it.data as List<Tree>)
                         addTreeUseCase(it.data!!)
                     }

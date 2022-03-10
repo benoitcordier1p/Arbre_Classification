@@ -35,22 +35,22 @@ fun TreesListScreen(
 ) {
 
     val state = remember { viewModel.state }
-    val isLoading = remember { viewModel.isLoading }
-    val error = remember { viewModel.error }
-    val lastTree = remember { viewModel.lastTree }
+    val isLoading by remember { viewModel.isLoading }
+    val error by remember { viewModel.error }
+    val endReached by remember { viewModel.endReached }
     val isRefreshing by viewModel.isRefreshing.collectAsState()
-    val offline = remember { viewModel.offline }
+    val offline by remember { viewModel.offline }
 
     Scaffold {
         Text(
-            text = error.value,
+            text = error,
             color = MaterialTheme.colors.error,
-            modifier = Modifier.alpha(if (error.value.isNotEmpty()) 1f else 0f)
+            modifier = Modifier.alpha(if (error.isNotEmpty()) 1f else 0f)
         )
         Text(
             text = "You are currently offline",
             color = MaterialTheme.colors.error,
-            modifier = Modifier.alpha(if (error.value.isEmpty() && offline.value) 1f else 0f)
+            modifier = Modifier.alpha(if (error.isEmpty() && offline) 1f else 0f)
         )
         SearchBar(
             hint = "Search...",
@@ -74,7 +74,7 @@ fun TreesListScreen(
             ) {
                 items(state.value.size) {
                     println(state.value.size)
-                    if (it >= state.value.size - 1 && !offline.value) {
+                    if (it >= state.value.size - 1 && !offline && !endReached) {
                         LaunchedEffect(key1 = Unit, block = {
                             viewModel.getTrees(false)
                         })
@@ -121,7 +121,7 @@ fun TreesListScreen(
             }
         }
         LoadingErrorScreen(
-            isLoading = isLoading.value
+            isLoading = isLoading
         )
     }
 }
