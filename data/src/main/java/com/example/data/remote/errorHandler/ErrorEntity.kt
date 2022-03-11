@@ -7,4 +7,5 @@ sealed class ErrorEntity{
     object Unauthorized : ErrorEntity()
     object ServiceUnavailable : ErrorEntity()
     object Unknown : ErrorEntity()
+    object Blank : ErrorEntity()
 }

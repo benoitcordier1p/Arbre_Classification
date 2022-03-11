@@ -81,6 +81,7 @@ class TreesListViewModel @Inject constructor(
                         is ApiResponse.Error -> error.value = when (it.error) {
                             is ErrorEntity.Network -> "A network error has occurred. Check your internet connection"
                             is ErrorEntity.NotFound -> "API endpoint not found"
+                            is ErrorEntity.Blank -> "No Data"
                             is ErrorEntity.Unauthorized -> "Unauthorized request"
                             is ErrorEntity.BadRequest -> "An error occurred while requesting the server"
                             is ErrorEntity.ServiceUnavailable -> "Service Unavailable. Check your internet connection"

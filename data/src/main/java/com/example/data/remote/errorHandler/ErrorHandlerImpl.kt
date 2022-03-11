@@ -10,6 +10,7 @@ class ErrorHandlerImpl @Inject constructor() : ErrorHandler {
             401 or 403 -> ErrorEntity.Unauthorized
             404 -> ErrorEntity.NotFound
             406 or 408 -> ErrorEntity.Network
+            -1 -> ErrorEntity.Blank
             else -> ErrorEntity.Unknown
         }
     }

@@ -7,10 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
@@ -28,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.example.arbre_classification.R
 import com.example.arbre_classification.presentation.ui.theme.Arbre_ClassificationTheme
 import com.example.arbre_classification.util.WindowInfo
+import com.example.arbre_classification.util.animations.TreesTransitions
 import com.example.arbre_classification.util.event.RxEventHandler
 import com.example.arbre_classification.util.event.TreeEvent
 import com.example.arbre_classification.util.rememberWindowInfo
@@ -35,9 +33,10 @@ import com.example.domain.models.Tree
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@Destination
+@OptIn(ExperimentalMaterialApi::class)
+@Destination(route = "trees_screen/details", style = TreesTransitions::class)
 @Composable
-fun TreeScreen(tree: Tree) {
+fun TreeScreen(navigator: DestinationsNavigator,tree: Tree) {
 
     Box(
         modifier = Modifier
@@ -57,7 +56,7 @@ fun TreeScreen(tree: Tree) {
             ) {
                 item {
                     Column(Modifier.padding(10.dp)) {
-                        TreeDescription(tree = it)
+                        TreeDescription(navigator, tree = it)
                     }
                 }
             }
@@ -66,7 +65,7 @@ fun TreeScreen(tree: Tree) {
 }
 
 @Composable
-fun TreeDescription(tree: Tree) {
+fun TreeDescription(navigator: DestinationsNavigator,tree: Tree) {
     val windowInfo = rememberWindowInfo()
 
     Column(
@@ -98,9 +97,9 @@ fun TreeDescription(tree: Tree) {
             .size(30.dp)
             .clickable {
                 RxEventHandler.publishEvent(TreeEvent.DeleteTree(tree))
+                navigator.popBackStack()
             }
     )
-
 }
 
 @Composable
