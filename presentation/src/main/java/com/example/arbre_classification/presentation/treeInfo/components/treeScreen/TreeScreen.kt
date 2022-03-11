@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import com.example.arbre_classification.R
 import com.example.arbre_classification.presentation.ui.theme.Arbre_ClassificationTheme
 import com.example.arbre_classification.util.WindowInfo
-import com.example.arbre_classification.util.animations.TreesTransitions
 import com.example.arbre_classification.util.event.RxEventHandler
 import com.example.arbre_classification.util.event.TreeEvent
 import com.example.arbre_classification.util.rememberWindowInfo
@@ -34,9 +33,9 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalMaterialApi::class)
-@Destination(route = "trees_screen/details", style = TreesTransitions::class)
+@Destination(route = "trees_screen/details")
 @Composable
-fun TreeScreen(navigator: DestinationsNavigator,tree: Tree) {
+fun TreeScreen(navigator: DestinationsNavigator, tree: Tree) {
 
     Box(
         modifier = Modifier
@@ -65,7 +64,7 @@ fun TreeScreen(navigator: DestinationsNavigator,tree: Tree) {
 }
 
 @Composable
-fun TreeDescription(navigator: DestinationsNavigator,tree: Tree) {
+fun TreeDescription(navigator: DestinationsNavigator, tree: Tree) {
     val windowInfo = rememberWindowInfo()
 
     Column(
