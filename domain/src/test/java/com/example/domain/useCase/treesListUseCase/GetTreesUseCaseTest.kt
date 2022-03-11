@@ -4,13 +4,7 @@ import com.example.data.remote.errorHandler.ErrorHandler
 import com.example.data.remote.errorHandler.ErrorHandlerImpl
 import com.example.data.repository.FakeRepositoryLocal
 import com.example.data.repository.FakeRepositoryRemote
-import com.example.domain.fetchstrategy.FetchStrategy
-import com.example.domain.util.Resource
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Test
 
 class GetTreesUseCaseTest {
 
@@ -24,7 +18,7 @@ class GetTreesUseCaseTest {
         fakeRepositoryLocal = FakeRepositoryLocal()
         fakeRepositoryRemote = FakeRepositoryRemote()
         errorHandler = ErrorHandlerImpl()
-        getTrees = GetTreesUseCase(fakeRepositoryLocal,fakeRepositoryRemote,errorHandler)
+        getTrees = GetTreesUseCase(fakeRepositoryLocal,fakeRepositoryRemote)
     }
 
     /*

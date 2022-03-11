@@ -18,7 +18,7 @@ class ConnectionManager(private val context: Context) {
 
 
     //State. Updated when connection updated.
-    var offline = true
+    var offline = false
     private val listeners = mutableListOf<ConnectionManagerListener>()
 
     init {

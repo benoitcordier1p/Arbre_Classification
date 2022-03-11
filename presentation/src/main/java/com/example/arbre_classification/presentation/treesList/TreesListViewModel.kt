@@ -12,7 +12,7 @@ import com.example.domain.models.Tree
 import com.example.domain.useCase.addTreeUseCase.AddTreeUseCase
 import com.example.domain.useCase.deleteTreeUseCase.DeleteTreeUseCase
 import com.example.domain.useCase.treesListUseCase.GetTreesUseCase
-import com.example.domain.util.Resource
+import com.example.domain.util.ApiResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +51,6 @@ class TreesListViewModel @Inject constructor(
 
     //Variable used for lazy loading, updated when the user to scroll to the bottom of the list
     private var index = -1
-
     private var deleteEventDisposable: Disposable? = null
 
     init {
@@ -73,15 +72,17 @@ class TreesListViewModel @Inject constructor(
             getTreesUseCase.invoke(Constants.NUMBER_OF_ROWS * index, getFetchStrategy(force))
                 .collect {
                     when (it) {
-                        is Resource.Success -> {
+                        is ApiResponse.Success -> {
                             endReached.value = index * Constants.NUMBER_OF_ROWS >= it.data!!.size
                             _state.value += (it.data as List<Tree>)
                             addTreeUseCase(it.data!!)
                         }
-                        is Resource.Loading -> isLoading.value = true
-                        is Resource.Error -> error.value = when (it.error) {
-                            is ErrorEntity.Network -> "A network error has occurred"
+                        is ApiResponse.Loading -> isLoading.value = true
+                        is ApiResponse.Error -> error.value = when (it.error) {
+                            is ErrorEntity.Network -> "A network error has occurred. Check your internet connection"
                             is ErrorEntity.NotFound -> "API endpoint not found"
+                            is ErrorEntity.Unauthorized -> "Unauthorized request"
+                            is ErrorEntity.BadRequest -> "An error occurred while requesting the server"
                             is ErrorEntity.ServiceUnavailable -> "Service Unavailable. Check your internet connection"
                             else -> "An unexpected error has occurred. Please try again later"
                         }

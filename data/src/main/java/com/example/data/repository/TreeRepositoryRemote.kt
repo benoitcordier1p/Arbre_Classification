@@ -1,10 +1,11 @@
 package com.example.data.repository
 
-import com.example.data.remote.models.Record
+import com.example.data.remote.models.TreesComplete
+import retrofit2.Response
 
 interface TreeRepositoryRemote {
 
-    suspend fun getTrees() : List<Record>
+    suspend fun getTrees() : Response<TreesComplete>
 
-    suspend fun getTreesFromCache(position:String) : List<Record>
+    suspend fun getTreesFromCache(position:String) : Response<TreesComplete>
 }

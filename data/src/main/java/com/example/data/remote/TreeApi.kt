@@ -1,6 +1,7 @@
 package com.example.data.remote
 
 import com.example.data.remote.models.TreesComplete
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -11,10 +12,10 @@ const val URL = "/api/records/1.0/search/?dataset=les-arbres&q=&rows=20&facet=do
 interface TreeApi {
 
     @GET(URL)
-    suspend fun getTrees(@Query("start") start: String): TreesComplete
+    suspend fun getTrees(@Query("start") start: String): Response<TreesComplete>
 
     @GET(URL)
     @Headers("$CACHE_CONTROL_HEADER: $CACHE_CONTROL_NO_CACHE")
-    suspend fun getForceTrees(@Query("start") start: String): TreesComplete
+    suspend fun getForceTrees(@Query("start") start: String): Response<TreesComplete>
 
 }
