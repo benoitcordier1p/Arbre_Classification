@@ -12,7 +12,7 @@ Pour l'installation, simplement cloner ou télécharger le projet.
 
 ### Branches
 
-*RoomDB 
+* RoomDB 
   *Projet complet (List d'arbres lazy loading, Ajout, Suppression, Modification)
   *Gestion du réseau (API, cache Retrofit, cache RoomDB)
   *JetPack Compose
