@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="treeItem"
-            type="com.example.appdatabinding.presentation.treeList.TreesListViewModel" />
 
         <variable
-            name="main"
-            type="com.example.appdatabinding.MainActivity" />
+            name="data"
+            type="com.example.appdatabinding.presentation.treeItem.TreeItemFragment" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,18 +16,35 @@
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/menuButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/greenForest"
-            android:onClick="@{()->main.backMenu()}"
             android:text="@string/menu"
             android:textColor="@android:color/white"
+            android:onClick="@{()->data.goToListTree()}"
             app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintHorizontal_bias="0.516"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.069" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/updateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/greenForest"
+            android:text="@string/update_this_tree"
+            android:textColor="@android:color/white"
+            android:padding="10dp"
+            android:onClick="@{()->data.goToUpdateTree()}"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -47,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="10sp"
-            android:text="@{`id : `+treeItem.select.id}"
+            android:text="@{data.tree.id}"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -62,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="10sp"
-            android:text="@{`Espèce : `+ treeItem.select.espece}"
+            android:text="@{data.tree.espece}"
             android:textColor="@color/wood"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
@@ -73,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="10sp"
-            android:text="@{`Hauteur : `+ treeItem.select.hauteurenm+`m`}"
+            android:text="@{Integer.toString(data.tree.hauteurenm)}"
             android:textColor="@color/wood"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/textView4"
@@ -84,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="10sp"
-            android:text="@{`Circonférence : `+ treeItem.select.circonferenceencm+`cm`}"
+            android:text="@{Integer.toString(data.tree.circonferenceencm)}"
             android:textColor="@color/wood"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/textView5"
@@ -95,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="10sp"
-            android:text="@{`Adresse : `+ treeItem.select.adresse}"
+            android:text="@{data.tree.adresse}"
             android:textColor="@color/wood"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"

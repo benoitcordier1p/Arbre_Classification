@@ -44,13 +44,12 @@
             android:id="@+id/rvTree"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:visibility="@{vm.error.empty? View.VISIBLE:View.GONE}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.426"
-            tools:layout_editor_absoluteX="0dp">
-        </androidx.recyclerview.widget.RecyclerView>
+            tools:layout_editor_absoluteX="0dp"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,11 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.appdatabinding.util.Constants
 import com.example.domain.models.Tree
-import com.example.domain.models.mock
 import com.example.domain.useCase.treesListUseCase.GetTreesUseCase
 import com.example.domain.util.Resource
-import com.example.appdatabinding.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -30,11 +29,9 @@ class TreesListViewModel @Inject constructor(
 
     //Variable used for lazy loading, updated when the user to scroll to the bottom of the list
     private var index = 0
-    var select: Tree = mock()
 
     init {
         getTrees()
-
     }
 
 
@@ -54,9 +51,5 @@ class TreesListViewModel @Inject constructor(
             }
             isLoading.value = false
         }
-    }
-
-    fun itemSelection(tree: Tree) {
-        select = tree
     }
 }

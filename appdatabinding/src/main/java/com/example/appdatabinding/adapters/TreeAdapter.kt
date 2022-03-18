@@ -37,7 +37,6 @@ class TreeAdapter internal constructor(
 
         init {
             treeItemBinding.buttonTree.setOnClickListener {
-                println(absoluteAdapterPosition.toString())
                 onItemClick?.invoke(mData[absoluteAdapterPosition])
             }
         }

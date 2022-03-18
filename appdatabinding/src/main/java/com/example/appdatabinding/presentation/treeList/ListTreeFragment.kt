@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appdatabinding.MainActivity
@@ -47,7 +48,6 @@ class ListTreeFragment : Fragment() {
                 act.vm.getTrees()
             }
         })
-
         return view
     }
 
@@ -61,8 +61,8 @@ class ListTreeFragment : Fragment() {
         }
 
         treeAdapter?.onItemClick = { tree ->
-            act.vm.itemSelection(tree)
-            act.onSelectedItem()
+            val action = ListTreeFragmentDirections.actionListTreeFragmentToTreeItemFragment(tree)
+            findNavController().navigate(action)
         }
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {

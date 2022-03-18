@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/listTreeFragment">
+
+    <fragment
+        android:id="@+id/listTreeFragment"
+        android:name="com.example.appdatabinding.presentation.treeList.ListTreeFragment"
+        android:label="ListTreeFragment" >
+        <action
+            android:id="@+id/action_listTreeFragment_to_treeItemFragment"
+            app:destination="@id/treeItemFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/treeItemFragment"
+        android:name="com.example.appdatabinding.presentation.treeItem.TreeItemFragment"
+        android:label="TreeItemFragment" >
+        <action
+            android:id="@+id/action_treeItemFragment_to_listTreeFragment"
+            app:destination="@id/listTreeFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <argument android:name="tree"
+            app:argType="com.example.domain.models.Tree" />
+        <action
+            android:id="@+id/action_treeItemFragment_to_updateForm"
+            app:destination="@id/updateForm" />
+    </fragment>
+    <fragment
+        android:id="@+id/addTreeFragment"
+        android:name="com.example.appdatabinding.presentation.addTree.AddTreeFragment"
+        android:label="fragment_add_tree"
+        tools:layout="@layout/fragment_add_tree" >
+        <action
+            android:id="@+id/action_addTreeFragment_to_addForm"
+            app:destination="@id/addForm" />
+        <action
+            android:id="@+id/action_addTreeFragment_to_updateForm"
+            app:destination="@id/updateForm" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateForm"
+        android:name="com.example.appdatabinding.presentation.addTree.UpdateForm"
+        android:label="fragment_update_form">
+        <action
+            android:id="@+id/action_updateForm_to_addTreeFragment"
+            app:destination="@id/addTreeFragment" />
+        <argument
+            android:name="tree"
+            app:argType="com.example.domain.models.Tree"/>
+    </fragment>
+    <fragment
+        android:id="@+id/addForm"
+        android:name="com.example.appdatabinding.presentation.addTree.AddForm"
+        android:label="fragment_add_form">
+        <action
+            android:id="@+id/action_addForm_to_addTreeFragment"
+            app:destination="@id/addTreeFragment" />
+    </fragment>
+</navigation>
