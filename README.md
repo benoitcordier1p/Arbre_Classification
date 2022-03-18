@@ -12,10 +12,22 @@ Pour l'installation, simplement cloner ou télécharger le projet.
 
 ### Branches
 
-RoomDB contient le projet classique, avec la gestion de réseau, mais contient également une base de données Room, mettant les arbres en cache et les affiche en mode offline. Avec JetPack Compose. Possibilité d'ajouter des arbres dans la base de données en développement. Possibilité d'ajouter un arbre (l'ajoute dans le cache) et d'en supprimer. Récupère les arbres avec Retrofit et son cache
+*RoomDB 
+  *Projet complet (List d'arbres lazy loading, Ajout, Suppression, Modification)
+  *Gestion du réseau (API, cache Retrofit, cache RoomDB)
+  *JetPack Compose
 
-Master contient le projet classique, Clean Architecture, MVVVM, Retrofit, Dagger-Hilt, Lazy Loading, avec Jetpack Compose.
+*Master 
+  *Projet réduit (List d'arbres lazy loading)
+  *JetPack Compose
 
-Databinding contient le projet classique, mais utilise les layout XML et du databinding à la place de JetPack Compose, et contient également la gestion de gain et perte de connexion.
+*Databinding 
+  *Projet complet (List d'arbres lazy loading, Ajout, Suppression, Modification)
+  *Databinding
+  *Navigation Components
+  *Gestion du réseau (API et messages d'erreur)
 
-RealmDB est similaire à la branche RoomDB, mais utilise Realm au lieu de Room.
+*RealmDB
+  *Projet réduit (List d'arbres lazy loading)
+  *Gestion du réseau (API et cache RealmDB)
+  *JetPack Compose
